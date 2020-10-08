@@ -9,6 +9,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.Optional;
 
@@ -22,15 +23,16 @@ public class BookingController {
 
     //Cancel booking
     @PatchMapping("/cancel")
-    public ResponseEntity<?> authenticateWorker(@RequestParam("bookingId") long id){
+    public ResponseEntity<?> cancelBooking(@RequestParam("bookingId") long id){
         //Authenticate worker in repo
         Optional<Booking> booking = bookingService.cancel(id);
         if(!booking.isPresent()){
-            return new ResponseEntity<>("No Worker found", HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>("No Booking found", HttpStatus.NOT_FOUND);
         }
 
         return new ResponseEntity<>(booking, HttpStatus.OK); //Updated worker returned
     }
+
 
     @PostMapping("")
     public ResponseEntity<?> createBooking(@Valid @RequestBody Booking booking, BindingResult result){
@@ -48,6 +50,7 @@ public class BookingController {
         return new ResponseEntity<>(savedBooking, HttpStatus.CREATED); //New booking object returned
     }
 
+
     @GetMapping("")
     public ResponseEntity<?> getBooking(@RequestParam("id") long id){
         Optional<Booking> booking = bookingService.get(id); //Get booking from repo
@@ -58,6 +61,7 @@ public class BookingController {
 
         return new ResponseEntity<>(booking,HttpStatus.OK); //Booking returned
     }
+
 
     @PutMapping("")
     public ResponseEntity<?> updateBooking(@Valid @RequestBody Booking booking, BindingResult result){
@@ -73,13 +77,14 @@ public class BookingController {
         return new ResponseEntity<>(savedBooking, HttpStatus.OK); //Updated booking object returned
     }
 
+
     //Get bookings that have not started yet
     //Bookings can be got by workerID or customerID
     @GetMapping("/upcoming")
     public ResponseEntity<?> getUpcomingBookings(@RequestParam(value = "workerId", required = false) Long workerID,
                                                @RequestParam(value = "customerId", required = false) Long customerID){
         if(workerID != null && customerID == null){
-            Iterable<Booking> bookings = bookingService.getByWorkerBetween(workerID, new Date(), null);
+            Iterable<Booking> bookings = bookingService.getByWorkerBetween(workerID, LocalDateTime.now(), null);
 
             if(!bookings.iterator().hasNext()){
                 return new ResponseEntity<>("No Booking Found", HttpStatus.NOT_FOUND);
@@ -88,7 +93,7 @@ public class BookingController {
 
             return new ResponseEntity<>(bookings, HttpStatus.OK);
         } else if(workerID == null && customerID != null){
-            Iterable<Booking> bookings = bookingService.getByCustomerBetween(customerID, new Date(), null);
+            Iterable<Booking> bookings = bookingService.getByCustomerBetween(customerID, LocalDateTime.now(), null);
 
 
             if(!bookings.iterator().hasNext()){
@@ -102,6 +107,7 @@ public class BookingController {
         }
     }
 
+
     //Get bookings that have started
     //Bookings can be got by workerID or customerID
     @GetMapping("/past")
@@ -109,7 +115,7 @@ public class BookingController {
                                                  @RequestParam(value = "customerId", required = false) Long customerID){
         if(workerID != null && customerID == null){
             //Get from repo by workerID
-            Iterable<Booking> bookings = bookingService.getByWorkerBetween(workerID, null, new Date());
+            Iterable<Booking> bookings = bookingService.getByWorkerBetween(workerID, null, LocalDateTime.now());
 
             if(!bookings.iterator().hasNext()){
                 return new ResponseEntity<>("No Booking Found", HttpStatus.NOT_FOUND);
@@ -119,7 +125,7 @@ public class BookingController {
 
         } else if(workerID == null && customerID != null){
             //Get from repo by customerID
-            Iterable<Booking> bookings = bookingService.getByCustomerBetween(customerID, null, new Date());
+            Iterable<Booking> bookings = bookingService.getByCustomerBetween(customerID, null, LocalDateTime.now());
 
             if(!bookings.iterator().hasNext()){
                 return new ResponseEntity<>("No Booking Found", HttpStatus.NOT_FOUND);
