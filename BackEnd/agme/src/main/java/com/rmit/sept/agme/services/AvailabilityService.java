@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.ZoneId;
 import java.util.*;
@@ -75,12 +76,26 @@ public class AvailabilityService {
         Iterator<Availability> availabilities = availabilityRepository.getByDayAndWorker(day, worker.get()).iterator();
 
         //Get worker's bookings
-        Iterator<Booking> bookings = bookingRepository.getBetweenByWorker(workerId, date.atStartOfDay(),
-                date.plusDays(1).atStartOfDay()).iterator();
+        Date startOfDay = Date.from(date.atStartOfDay().atZone(ZoneId.systemDefault()).toInstant());
+        Date endOfDay = Date.from(date.plusDays(1).atStartOfDay().atZone(ZoneId.systemDefault()).toInstant());
+        String end = endOfDay.toString();
+        String start = startOfDay.toString();
+        String now  = new Date().toString();
+        Iterator<Booking> bookings = bookingRepository.getBetweenByWorker(workerId, startOfDay, endOfDay)
+                .iterator();
 
-        Collection<Booking> bookingList = new ArrayList<>();
+        Collection<LocalTime[]> bookingList = new ArrayList<>();
         while(bookings.hasNext()){
-            bookingList.add(bookings.next());
+            Booking booking = bookings.next();
+
+            if(!booking.isCancelled()) {
+                LocalTime startTime = LocalDateTime.ofInstant(booking.getStartTime().toInstant(),
+                        ZoneId.systemDefault()).toLocalTime();
+                LocalTime endTime = LocalDateTime.ofInstant(booking.getEndTime().toInstant(),
+                        ZoneId.systemDefault()).toLocalTime();
+
+                bookingList.add(new LocalTime[]{startTime, endTime});
+            }
         }
 
         Collection<LocalTime> timeSlots = new ArrayList<>();
@@ -88,15 +103,20 @@ public class AvailabilityService {
         //Check each availability against bookings
         while(availabilities.hasNext()){
             LocalTime timeSlot = availabilities.next().getTimeSlot();
+            boolean overlap = false;
 
-            for(Booking booking: bookingList){ //Add availability if there is no booking
-                if(!booking.isCancelled()){
-                    if(booking.getStartTime().toLocalTime().isAfter(timeSlot) ||
-                        booking.getEndTime().toLocalTime().isBefore(timeSlot) ||
-                        booking.getEndTime().toLocalTime().equals(timeSlot)){
-                        timeSlots.add(timeSlot);
+            for(LocalTime[] booking: bookingList){ //Add availability if there is no booking
+
+                if(timeSlot.isAfter(booking[0]) ||
+                        timeSlot.equals(booking[0])){
+                    if(timeSlot.isBefore(booking[1])) {
+                        overlap = true;
                     }
                 }
+            }
+
+            if(!overlap){
+                timeSlots.add(timeSlot);
             }
         }
 

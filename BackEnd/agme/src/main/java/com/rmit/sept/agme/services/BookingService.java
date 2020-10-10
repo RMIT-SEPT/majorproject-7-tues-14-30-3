@@ -46,7 +46,7 @@ public class BookingService {
     }
 
     //Get all bookings for worker
-    public Iterable<Booking> getByWorkerBetween(long workerID, LocalDateTime start, LocalDateTime end){
+    public Iterable<Booking> getByWorkerBetween(long workerID, Date start, Date end){
         if(start == null){ //Get bookings before end
             return bookingRepository.getPastByWorker(workerID, end);
         } else if(end == null) { //Get bookings after start
@@ -56,7 +56,7 @@ public class BookingService {
     }
 
     //Get all bookings for customer
-    public Iterable<Booking> getByCustomerBetween(long customerID, LocalDateTime start, LocalDateTime end){
+    public Iterable<Booking> getByCustomerBetween(long customerID, Date start, Date end){
         if(start == null){ //Get bookings before end
             return bookingRepository.getPastByCustomer(customerID, end);
         } else if(end == null) { //Get bookings after start

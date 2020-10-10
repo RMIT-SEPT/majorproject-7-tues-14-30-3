@@ -1,5 +1,6 @@
 package com.rmit.sept.agme.web;
 
+import com.rmit.sept.agme.TimeZoneUtil;
 import com.rmit.sept.agme.model.Booking;
 import com.rmit.sept.agme.services.BookingService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +31,10 @@ public class BookingController {
             return new ResponseEntity<>("No Booking found", HttpStatus.NOT_FOUND);
         }
 
+        //Remove timezone for return as string
+        booking.get().setStartTime(TimeZoneUtil.removeTimeZone(booking.get().getStartTime()));
+        booking.get().setEndTime(TimeZoneUtil.removeTimeZone(booking.get().getEndTime()));
+
         return new ResponseEntity<>(booking, HttpStatus.OK); //Updated worker returned
     }
 
@@ -42,11 +47,19 @@ public class BookingController {
 
         booking.setService(booking.getWorker().getService());
 
+        //Add timezone
+        booking.setStartTime(TimeZoneUtil.addTimeZone(booking.getStartTime()));
+        booking.setEndTime(TimeZoneUtil.addTimeZone(booking.getEndTime()));
+
         //Create booking in repo
         Optional<Booking> savedBooking = bookingService.create(booking);
         if(!savedBooking.isPresent()){ //Bad booking
             return new ResponseEntity<>("Invalid Booking", HttpStatus.CONFLICT);
         }
+
+        //Remove timezone for return as string
+        savedBooking.get().setStartTime(TimeZoneUtil.removeTimeZone(savedBooking.get().getStartTime()));
+        savedBooking.get().setEndTime(TimeZoneUtil.removeTimeZone(savedBooking.get().getEndTime()));
         return new ResponseEntity<>(savedBooking, HttpStatus.CREATED); //New booking object returned
     }
 
@@ -59,6 +72,9 @@ public class BookingController {
             return new ResponseEntity<>("No Booking Found", HttpStatus.NOT_FOUND);
         }
 
+        //Remove timezone for return as string
+        booking.get().setStartTime(TimeZoneUtil.removeTimeZone(booking.get().getStartTime()));
+        booking.get().setEndTime(TimeZoneUtil.removeTimeZone(booking.get().getEndTime()));
         return new ResponseEntity<>(booking,HttpStatus.OK); //Booking returned
     }
 
@@ -69,10 +85,18 @@ public class BookingController {
             return new ResponseEntity<>("Invalid Booking Object", HttpStatus.BAD_REQUEST);
         }
 
+        //Add timezone
+        booking.setStartTime(TimeZoneUtil.addTimeZone(booking.getStartTime()));
+        booking.setEndTime(TimeZoneUtil.addTimeZone(booking.getEndTime()));
+
         //Update booking in repo
-        Optional<?> savedBooking = bookingService.update(booking);
+        Optional<Booking> savedBooking = bookingService.update(booking);
         if(!savedBooking.isPresent()) //No booking found
             return new ResponseEntity<>("Booking Not Found", HttpStatus.NOT_FOUND);
+
+        //Remove timezone for return as string
+        savedBooking.get().setStartTime(TimeZoneUtil.removeTimeZone(savedBooking.get().getStartTime()));
+        savedBooking.get().setEndTime(TimeZoneUtil.removeTimeZone(savedBooking.get().getEndTime()));
 
         return new ResponseEntity<>(savedBooking, HttpStatus.OK); //Updated booking object returned
     }
@@ -83,28 +107,32 @@ public class BookingController {
     @GetMapping("/upcoming")
     public ResponseEntity<?> getUpcomingBookings(@RequestParam(value = "workerId", required = false) Long workerID,
                                                @RequestParam(value = "customerId", required = false) Long customerID){
+        Iterable<Booking> bookings;
+
         if(workerID != null && customerID == null){
-            Iterable<Booking> bookings = bookingService.getByWorkerBetween(workerID, LocalDateTime.now(), null);
+            bookings = bookingService.getByWorkerBetween(workerID, new Date(), null);
 
             if(!bookings.iterator().hasNext()){
                 return new ResponseEntity<>("No Booking Found", HttpStatus.NOT_FOUND);
             }
-
-
-            return new ResponseEntity<>(bookings, HttpStatus.OK);
         } else if(workerID == null && customerID != null){
-            Iterable<Booking> bookings = bookingService.getByCustomerBetween(customerID, LocalDateTime.now(), null);
-
+            bookings = bookingService.getByCustomerBetween(customerID, new Date(), null);
 
             if(!bookings.iterator().hasNext()){
                 return new ResponseEntity<>("No Booking Found", HttpStatus.NOT_FOUND);
             }
-
-            return new ResponseEntity<>(bookings, HttpStatus.OK);
         }
         else{
             return new ResponseEntity<>("Bad Request", HttpStatus.BAD_REQUEST);
         }
+
+        for (Booking booking: bookings) {
+            //Remove timezone for return as string
+            booking.setStartTime(TimeZoneUtil.removeTimeZone(booking.getStartTime()));
+            booking.setEndTime(TimeZoneUtil.removeTimeZone(booking.getEndTime()));
+        }
+
+        return new ResponseEntity<>(bookings, HttpStatus.OK);
     }
 
 
@@ -113,29 +141,34 @@ public class BookingController {
     @GetMapping("/past")
     public ResponseEntity<?> getPastBookings(@RequestParam(value = "workerId", required = false) Long workerID,
                                                  @RequestParam(value = "customerId", required = false) Long customerID){
+        Iterable<Booking> bookings;
+
         if(workerID != null && customerID == null){
             //Get from repo by workerID
-            Iterable<Booking> bookings = bookingService.getByWorkerBetween(workerID, null, LocalDateTime.now());
+            bookings = bookingService.getByWorkerBetween(workerID, null, new Date());
 
             if(!bookings.iterator().hasNext()){
                 return new ResponseEntity<>("No Booking Found", HttpStatus.NOT_FOUND);
             }
-
-            return new ResponseEntity<>(bookings, HttpStatus.OK); //Return array of bookings
-
         } else if(workerID == null && customerID != null){
             //Get from repo by customerID
-            Iterable<Booking> bookings = bookingService.getByCustomerBetween(customerID, null, LocalDateTime.now());
+            bookings = bookingService.getByCustomerBetween(customerID, null, new Date());
 
             if(!bookings.iterator().hasNext()){
                 return new ResponseEntity<>("No Booking Found", HttpStatus.NOT_FOUND);
             }
-
-            return new ResponseEntity<>(bookings, HttpStatus.OK); //Return array of bookings
         }
         else{ //Invalid request params
             return new ResponseEntity<>("Bad Request", HttpStatus.BAD_REQUEST);
         }
+
+        for (Booking booking: bookings) {
+            //Remove timezone for return as string
+            booking.setStartTime(TimeZoneUtil.removeTimeZone(booking.getStartTime()));
+            booking.setEndTime(TimeZoneUtil.removeTimeZone(booking.getEndTime()));
+        }
+
+        return new ResponseEntity<>(bookings, HttpStatus.OK); //Return array of bookings
     }
 
 }

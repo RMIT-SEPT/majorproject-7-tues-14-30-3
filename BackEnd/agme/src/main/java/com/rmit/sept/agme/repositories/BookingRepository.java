@@ -15,20 +15,20 @@ public interface BookingRepository extends CrudRepository<Booking, Long> {
 
     //Custom queries for date/time
     @Query("SELECT b FROM Booking b WHERE b.worker.id = (:workerID) AND b.startTime > (:time)")
-    Iterable<Booking> getUpcomingByWorker(@Param("workerID")long workerID, @Param("time") LocalDateTime time);
+    Iterable<Booking> getUpcomingByWorker(@Param("workerID")long workerID, @Param("time") Date time);
 
     @Query("SELECT b FROM Booking b WHERE b.customer.id = (:customerID) AND b.startTime > (:time)")
-    Iterable<Booking> getUpcomingByCustomer(@Param("customerID")long customerID, @Param("time") LocalDateTime time);
+    Iterable<Booking> getUpcomingByCustomer(@Param("customerID")long customerID, @Param("time") Date time);
 
 
     @Query("SELECT b FROM Booking b WHERE b.worker.id = (:workerID) AND b.startTime < (:time)")
-    Iterable<Booking> getPastByWorker(@Param("workerID")long workerID, @Param("time") LocalDateTime time);
+    Iterable<Booking> getPastByWorker(@Param("workerID")long workerID, @Param("time") Date time);
 
     @Query("SELECT b FROM Booking b WHERE b.customer.id = (:customerID) AND b.startTime < (:time)")
-    Iterable<Booking> getPastByCustomer(@Param("customerID") long customerID, @Param("time") LocalDateTime time);
+    Iterable<Booking> getPastByCustomer(@Param("customerID") long customerID, @Param("time") Date time);
 
 
-    @Query("SELECT b FROM Booking b WHERE b.worker.id = (:workerID) AND b.startTime < (:end) AND b.endTime > (:start)")
-    Iterable<Booking> getBetweenByWorker(@Param("workerID")long workerID, @Param("start") LocalDateTime start,
-                                         @Param("end") LocalDateTime end);
+    @Query("SELECT b FROM Booking b WHERE b.worker.id = (:workerID) AND (b.startTime < (:end) AND b.endTime > (:start)) OR (b.endTime > (:start) AND b.endTime < (:end))")
+    Iterable<Booking> getBetweenByWorker(@Param("workerID")long workerID, @Param("start") Date start,
+                                         @Param("end") Date end);
 }
