@@ -1,23 +1,23 @@
 import React, { Component } from "react";
 import Navbar from "./../Layout/Navbars/MainNavbar/MainNavbar";
-import { connect } from "react-redux";
-import PropTypes from "prop-types";
-import { approveWorker } from "../../actions/approveWorkerActions";
+import Footer from "./../Layout/Footer/Footer";
 import axios from "axios";
 import setJWTToken from "../../securityUtils/setJWTToken";
+import TimeButton from "./Buttons/TimeButton";
 
-class WorkerConfirmation extends Component {
+export default class WorkerAvailabilities extends Component {
   constructor(props) {
     super(props);
     this.state = {
       workers: null,
-      index: null,
       loaded: false,
-      email: "",
       worker: null,
+      day: null,
+      blue: false,
     };
     this.handleChange = this.handleChange.bind(this);
-    this.approve = this.approve.bind(this);
+    this.handleDayChange = this.handleDayChange.bind(this);
+    this.handleClick = this.handleClick.bind(this);
   }
 
   handleChange(e) {
@@ -25,8 +25,12 @@ class WorkerConfirmation extends Component {
     this.setState({ worker: this.state.workers[e.target.value] });
   }
 
-  approve() {
-    this.props.approveWorker(this.state.worker["id"], this.props.history);
+  handleDayChange(e) {
+    this.setState({ day: [e.target.value] });
+  }
+
+  handleClick() {
+    this.setState({ blue: !this.state.blue });
   }
 
   async componentDidMount() {
@@ -39,9 +43,7 @@ class WorkerConfirmation extends Component {
     setJWTToken(localStorage.getItem("jwtToken"));
 
     try {
-      const res = await axios.get(
-        "http://localhost:8080/api/worker/all/authenticate"
-      );
+      const res = await axios.get("http://localhost:8080/api/worker/all");
       this.setState({ workers: res.data, loaded: true });
       console.log(res.data);
     } catch (err) {
@@ -50,7 +52,12 @@ class WorkerConfirmation extends Component {
       }
     }
   }
+
   render() {
+    let btntimeslot = this.state.blue
+      ? "btn btn-timeslot blue darken-4"
+      : "btn btn-timeslot grey";
+
     if (!this.state.loaded) {
       return (
         <div className="center-align">
@@ -65,23 +72,22 @@ class WorkerConfirmation extends Component {
       return (
         <div>
           <Navbar />
+          <Footer />
           <div className="row">
             <div className="account-card">
               <div className="col s6 push-s3">
                 <div className="card" data-test="card">
                   <div className="card-action blue darken-4 white-text center-align">
                     <h4>
-                      <b>Worker confirmation</b>
+                      <b>Worker Availabilities</b>
                     </h4>
                   </div>
                   <div class="row">
                     <div className="card-content" data-test="workers">
                       <h6>
-                        <b> Pending worker accounts</b>
+                        <b> Worker accounts</b>
                       </h6>
                       <div className="form-field">
-                        {/* if workers exist, loop through each worker in the drop down menu for the form
-                  if they dont exit, load message saying workers dont exist*/}
                         {this.state.workers === null ? (
                           <select className="browser-default" required>
                             <option value="" disabled selected>
@@ -97,7 +103,7 @@ class WorkerConfirmation extends Component {
                             required
                           >
                             <option value="" disabled selected>
-                              Choose your option
+                              Select your worker
                             </option>
                             {this.state.workers.map((worker, index) => (
                               <option key={worker["id"]} value={index}>
@@ -114,7 +120,9 @@ class WorkerConfirmation extends Component {
                         {this.state.workers === null ? (
                           <h6>No workers left to approve</h6>
                         ) : (
-                          <h6>Please Select a Worker to approve</h6>
+                          <h6>
+                            Please Select a Worker to assign working times to
+                          </h6>
                         )}
                       </div>
                     </div>
@@ -135,29 +143,31 @@ class WorkerConfirmation extends Component {
               <div className="card" data-test="card">
                 <div className="card-action blue darken-4 white-text center-align">
                   <h4>
-                    <b>Worker confirmation</b>
+                    <b>Worker Availabilities</b>
                   </h4>
                 </div>
                 <div class="row">
                   <div className="card-content" data-test="workers">
                     <h6>
-                      <b> Pending worker accounts</b>
+                      <b> Worker accounts</b>
                     </h6>
                     <div className="form-field">
-                      {/* if workers exist, loop through each worker in the drop down menu for the form
-                  if they dont exit, load message saying workers dont exist*/}
                       {this.state.workers === null ? (
-                        <h6> No workers available</h6>
+                        <select className="browser-default" required>
+                          <option value="" disabled selected>
+                            No workers Available
+                          </option>
+                        </select>
                       ) : (
                         <select
                           className="browser-default"
                           name="index"
-                          value={this.state.index}
+                          value={this.state.worker}
                           onChange={this.handleChange}
                           required
                         >
                           <option value="" disabled selected>
-                            Choose your option
+                            Select your worker
                           </option>
                           {this.state.workers.map((worker, index) => (
                             <option key={worker["id"]} value={index}>
@@ -169,71 +179,60 @@ class WorkerConfirmation extends Component {
                         </select>
                       )}
                     </div>
-
-                    <div className="card-content">
-                      <div className="col s3">
-                        <h6>
-                          <b>Profile</b>
-                        </h6>
-                      </div>
-                    </div>
-                    <div className="card-content">
-                      <div className="col s3">
-                        <h7>Email</h7>
-                      </div>
-                      <div className="col s3 push-s3">
-                        <h7>
-                          <b>{this.state.worker["user"]["username"]}</b>
-                        </h7>
-                      </div>
-                    </div>
-                    <div className="card-content">
-                      <div className="col s3">
-                        <h7>Full Name</h7>
-                      </div>
-                      <div className="col s3 push-s3">
-                        <h7>
-                          <b>
-                            {this.state.worker["user"]["firstName"]}{" "}
-                            {this.state.worker["user"]["lastName"]}
-                          </b>
-                        </h7>
-                      </div>
-                    </div>
-                    <div className="card-content">
-                      <div className="col s3">
-                        <h7>Address</h7>
-                      </div>
-                      <div className="col s3 push-s3">
-                        <h7>
-                          <b>{this.state.worker["user"]["address"]}</b>
-                        </h7>
-                      </div>
-                    </div>
-
-                    <div className="card-content">
-                      <div className="col s3">
-                        <h7>Service</h7>
-                      </div>
-
-                      <div className="col s3 push-s3">
-                        <h7>
-                          <b>{this.state.worker["service"]["service"]}</b>
-                        </h7>
-                      </div>
-                    </div>
-
-                    <div className="card-content">
-                      <button
-                        className="btn btn-profile blue darken-4"
-                        type="submit"
-                        onClick={this.approve}
+                    <h6>
+                      <b> Day</b>
+                    </h6>
+                    <div className="form-field">
+                      <select
+                        className="browser-default"
+                        name="index"
+                        value={this.state.day}
+                        onChange={this.handleDayChange}
+                        required
                       >
-                        Approve Worker
-                      </button>
+                        <option value="" disabled selected>
+                          Select your day
+                        </option>
+                        <option value="Monday">Monday</option>
+                        <option value="Tuesday">Tuesday</option>
+                        <option value="Wednesday">Wednesday</option>
+                        <option value="Thursday">Thursday</option>
+                        <option value="Friday">Friday</option>
+                      </select>
                     </div>
-                    <div className="card-content"></div>
+                    <h6>
+                      <div className="center-align">
+                        <b>Time Slot Availabilities</b>
+                      </div>
+                    </h6>
+                    <div className="col s4 ">
+                      <TimeButton time="9:00 AM" />
+                      <TimeButton time="10:00 AM" />
+                      <TimeButton time="11:00 AM" />
+                      <TimeButton time="12:00 PM" />
+                      <TimeButton time="1:00 PM" />
+                      <TimeButton time="2:00 PM" />
+                      <TimeButton time="3:00 PM" />
+                      <TimeButton time="4:00 PM" />
+                      <TimeButton time="5:00 PM" />
+                    </div>
+                    <div className="col s4 push-s2">
+                    <TimeButton time="9:30 AM" />
+                    <TimeButton time="10:30 AM" />
+                    <TimeButton time="11:30 AM" />
+                    <TimeButton time="12:30 PM" />
+                    <TimeButton time="1:30 PM" />
+                    <TimeButton time="2:30 PM" />
+                    <TimeButton time="3:30 PM" />
+                    <TimeButton time="4:30 PM" />
+                    </div>
                   </div>
+                </div>
+
+                <div className="card-content">
+                  <button className="btn blue darken-4" type="submit">
+                    Set Available Times
+                  </button>
                 </div>
               </div>
             </div>
@@ -243,8 +242,3 @@ class WorkerConfirmation extends Component {
     );
   }
 }
-WorkerConfirmation.propTypes = {
-  approveWorker: PropTypes.func.isRequired,
-};
-
-export default connect(null, { approveWorker })(WorkerConfirmation);

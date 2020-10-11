@@ -3,7 +3,7 @@ import React, { Component } from "react";
 export default class Footer extends Component {
   render() {
     return (
-      <footer className="page-footer blue darken-4" data-test="footer">
+      <div className="page-footer blue darken-4" data-test="footer">
         <div className="container">
           <div className="row">
             <div className="col l6 s12">
@@ -77,7 +77,7 @@ export default class Footer extends Component {
             <a className="grey-text text-lighten-4 right">Australia</a>
           </div>
         </div>
-      </footer>
+      </div>
     );
   }
 }

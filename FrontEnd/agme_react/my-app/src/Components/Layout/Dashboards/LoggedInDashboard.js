@@ -43,8 +43,24 @@ export default class LoggedInDashboard extends Component {
                 </h5>
 
                 <Link to="/WorkerConfirmation">
-                  <button className="btn blue btn-approve darken-4" type="submit">
+                  <button
+                    className="btn blue btn-approve darken-4"
+                    type="submit"
+                  >
                     Approve workers
+                  </button>
+                </Link>
+              </div>
+              <div className="col l8 s12">
+                <h5>
+                  <b>Assign worker availabilites</b>
+                </h5>
+                <Link to="/WorkerAvailabilities">
+                  <button
+                    className="btn blue btn-approve darken-4"
+                    type="submit"
+                  >
+                    Worker Availabilities
                   </button>
                 </Link>
               </div>
@@ -56,6 +72,8 @@ export default class LoggedInDashboard extends Component {
 
     //if logged in user is worker, display this, else display customer version
     if (localStorage.getItem("workerObject") != null) {
+      const worker = localStorage.getItem("workerObject");
+
       return (
         <div className="loggedInComponent">
           <div class="container">
@@ -64,6 +82,11 @@ export default class LoggedInDashboard extends Component {
                 <h5>
                   <b>Check your Bookings</b>
                 </h5>
+                {worker.accepted === false ? (
+                  <h4>Approved</h4>
+                ) : (
+                  <h4>Not Approved</h4>
+                )}
 
                 <Link to="/CurrentBooking">
                   <button
