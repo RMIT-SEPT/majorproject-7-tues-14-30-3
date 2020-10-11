@@ -11,6 +11,7 @@ import { Provider } from 'react-redux'
 import store from './store'
 import Account from './Components/Layout/Accounts/Account'
 import WorkerConfirmation from './Components/auth/WorkerConfirmation'
+import WorkerAvailabilities from './Components/auth/WorkerAvailabilities'
 
 function App() {
   return (
@@ -29,6 +30,7 @@ function App() {
             <Route exact path="/PastBooking" component = {PastBooking}/>
             <Route exact path="/Account" component = {Account}/>
             <Route exact path="/WorkerConfirmation" component = {WorkerConfirmation}/>
+            <Route exact path="/WorkerAvailabilities" component = {WorkerAvailabilities}/>
           </Switch>
         </div>
       </Router>
