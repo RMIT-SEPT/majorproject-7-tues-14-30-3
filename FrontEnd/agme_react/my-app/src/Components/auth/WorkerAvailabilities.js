@@ -206,6 +206,7 @@ export default class WorkerAvailabilities extends Component {
                       </div>
                     </h6>
                     <div className="col s4 ">
+                    
                       <TimeButton time="9:00 AM" />
                       <TimeButton time="10:00 AM" />
                       <TimeButton time="11:00 AM" />

@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 
-export default class DayButton extends Component {
+export default class TimeButton extends Component {
   constructor(props) {
     super(props);
     this.state = {
