@@ -210,7 +210,6 @@ render() {
                             <option key={worker['id']} value={index}> {worker['user']['firstName']} {worker['user']['lastName']}</option>
                           ))
                         }
-                      
                     </select>
                       }
 
@@ -223,9 +222,15 @@ render() {
                         <h6>No workers available for this service</h6>
                         :<br></br>
                       }
-
+                  </div>
+                  <div className='link-redirect'>
+                    <Link to="/WorkerProfiles">
+                      <h6>Get to know our workers</h6>
+                    </Link>
                   </div>
               </div>
+
+              
 
               <div className="card-content" data-test="date-picker">
                 <h6> Choose your availability</h6>
