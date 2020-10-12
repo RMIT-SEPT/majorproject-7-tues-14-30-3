@@ -19,6 +19,7 @@ class WorkerAvailabilities extends Component {
       worker: null,
       day: null,
       blue: false,
+      time:null,
       times:timeArr
     };
 
@@ -35,7 +36,8 @@ class WorkerAvailabilities extends Component {
   }
 
   handleTime(e){
-    console.log(e)
+    //setState({time:e.target.value});
+    console.log(e.target.value)
   }
 
   handleDayChange(e) {
@@ -235,7 +237,7 @@ class WorkerAvailabilities extends Component {
                       </div>
                     </h6>
 
-                    <div className ="form-field"  >
+                    <div className ="form-field"  onClick={this.handleTime} >
                     <div className="col s4 " >
                       <TimeButton value="09:00:00" time="9:00 AM"/>
                       <TimeButton value="10:00:00" time="10:00 AM" />
