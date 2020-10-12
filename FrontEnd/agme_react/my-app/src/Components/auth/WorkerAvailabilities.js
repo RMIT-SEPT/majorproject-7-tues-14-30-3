@@ -52,6 +52,7 @@ class WorkerAvailabilities extends Component {
     e.preventDefault();
 
     console.log(this.state.day)
+    console.log()
  
    // this.props.setAvailabilities(this.state.worker['id'], this.state.day, this.state.times, this.props.history);
 
@@ -239,25 +240,25 @@ class WorkerAvailabilities extends Component {
 
                     <div className ="form-field"  onClick={this.handleTime} >
                     <div className="col s4 " >
-                      <TimeButton value="09:00:00" time="9:00 AM"/>
-                      <TimeButton value="10:00:00" time="10:00 AM" />
-                      <TimeButton value="11:00:00" time="11:00 AM" />
-                      <TimeButton value="12:00:00" time="12:00 PM" />
-                      <TimeButton value="13:00:00" time="1:00 PM" />
-                      <TimeButton value="14:00:00" time="2:00 PM" />
-                      <TimeButton value="15:00:00" time="3:00 PM" />
-                      <TimeButton value="16:00:00" time="4:00 PM" />
-                      <TimeButton value="17:00:00" time="5:00 PM" />
+                      <TimeButton timeValue="09:00:00" time="9:00 AM"/>
+                      <TimeButton timeValue="10:00:00" time="10:00 AM" />
+                      <TimeButton timeValue="11:00:00" time="11:00 AM" />
+                      <TimeButton timeValue="12:00:00" time="12:00 PM" />
+                      <TimeButton timeValue="13:00:00" time="1:00 PM" />
+                      <TimeButton timeValue="14:00:00" time="2:00 PM" />
+                      <TimeButton timeValue="15:00:00" time="3:00 PM" />
+                      <TimeButton timeValue="16:00:00" time="4:00 PM" />
+                      <TimeButton timeValue="17:00:00" time="5:00 PM" />
                     </div>
                     <div className="col s4 push-s2">
-                    <TimeButton value="09:30:00" time="9:30 AM" />
-                    <TimeButton value="10:30:00" time="10:30 AM" />
-                    <TimeButton value="11:30:00" time="11:30 AM" />
-                    <TimeButton value="12:30:00" time="12:30 PM" />
-                    <TimeButton value="13:30:00" time="1:30 PM" />
-                    <TimeButton value="14:30:00" time="2:30 PM" />
-                    <TimeButton value="15:30:00" time="3:30 PM" />
-                    <TimeButton value="16:30:00" time="4:30 PM" />
+                    <TimeButton timeValue="09:30:00" time="9:30 AM" />
+                    <TimeButton timeValue="10:30:00" time="10:30 AM" />
+                    <TimeButton timeValue="11:30:00" time="11:30 AM" />
+                    <TimeButton timeValue="12:30:00" time="12:30 PM" />
+                    <TimeButton timeValue="13:30:00" time="1:30 PM" />
+                    <TimeButton timeValue="14:30:00" time="2:30 PM" />
+                    <TimeButton timeValue="15:30:00" time="3:30 PM" />
+                    <TimeButton timeValue="16:30:00" time="4:30 PM" />
                     </div>
                     </div>
                   </div>
