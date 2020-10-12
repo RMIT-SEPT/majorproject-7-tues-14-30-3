@@ -36,7 +36,6 @@ export default class PastBooking extends Component {
       aLoaded: false,
       sLoaded: false,
       adminBookArray: arrObj,
-      aLoaded: false,
       displayedBooking: null,
     };
 

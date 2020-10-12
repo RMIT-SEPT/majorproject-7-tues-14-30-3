@@ -2,22 +2,31 @@ import React, { Component } from "react";
 import Navbar from "./../Layout/Navbars/MainNavbar/MainNavbar";
 import Footer from "./../Layout/Footer/Footer";
 import axios from "axios";
+import { connect } from "react-redux";
+import PropTypes from "prop-types";
+import { setAvailabilities } from "../../actions/setAvailabilitiesActions";
 import setJWTToken from "../../securityUtils/setJWTToken";
 import TimeButton from "./Buttons/TimeButton";
 
-export default class WorkerAvailabilities extends Component {
+class WorkerAvailabilities extends Component {
   constructor(props) {
     super(props);
+
+    var timeArr = [];
     this.state = {
       workers: null,
       loaded: false,
       worker: null,
       day: null,
       blue: false,
+      times:timeArr
     };
+
+    this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.handleDayChange = this.handleDayChange.bind(this);
     this.handleClick = this.handleClick.bind(this);
+    this.handleTime = this.handleTime.bind(this);
   }
 
   handleChange(e) {
@@ -25,12 +34,25 @@ export default class WorkerAvailabilities extends Component {
     this.setState({ worker: this.state.workers[e.target.value] });
   }
 
+  handleTime(e){
+    console.log(e)
+  }
+
   handleDayChange(e) {
-    this.setState({ day: [e.target.value] });
+    this.setState({ day: e.target.value });
   }
 
   handleClick() {
     this.setState({ blue: !this.state.blue });
+  }
+
+  handleSubmit(e) {
+    e.preventDefault();
+
+    console.log(this.state.day)
+ 
+   // this.props.setAvailabilities(this.state.worker['id'], this.state.day, this.state.times, this.props.history);
+
   }
 
   async componentDidMount() {
@@ -82,6 +104,8 @@ export default class WorkerAvailabilities extends Component {
                       <b>Worker Availabilities</b>
                     </h4>
                   </div>
+
+
                   <div class="row">
                     <div className="card-content" data-test="workers">
                       <h6>
@@ -146,13 +170,18 @@ export default class WorkerAvailabilities extends Component {
                     <b>Worker Availabilities</b>
                   </h4>
                 </div>
+
                 <div class="row">
                   <div className="card-content" data-test="workers">
                     <h6>
                       <b> Worker accounts</b>
                     </h6>
+
+
+
                     <div className="form-field">
-                      {this.state.workers === null ? (
+
+                      {(this.state.workers === null) ? (
                         <select className="browser-default" required>
                           <option value="" disabled selected>
                             No workers Available
@@ -193,11 +222,11 @@ export default class WorkerAvailabilities extends Component {
                         <option value="" disabled selected>
                           Select your day
                         </option>
-                        <option value="Monday">Monday</option>
-                        <option value="Tuesday">Tuesday</option>
-                        <option value="Wednesday">Wednesday</option>
-                        <option value="Thursday">Thursday</option>
-                        <option value="Friday">Friday</option>
+                        <option value="1">Monday</option>
+                        <option value="2">Tuesday</option>
+                        <option value="3">Wednesday</option>
+                        <option value="4">Thursday</option>
+                        <option value="5">Friday</option>
                       </select>
                     </div>
                     <h6>
@@ -205,35 +234,42 @@ export default class WorkerAvailabilities extends Component {
                         <b>Time Slot Availabilities</b>
                       </div>
                     </h6>
-                    <div className="col s4 ">
-                      <TimeButton time="9:00 AM" />
-                      <TimeButton time="10:00 AM" />
-                      <TimeButton time="11:00 AM" />
-                      <TimeButton time="12:00 PM" />
-                      <TimeButton time="1:00 PM" />
-                      <TimeButton time="2:00 PM" />
-                      <TimeButton time="3:00 PM" />
-                      <TimeButton time="4:00 PM" />
-                      <TimeButton time="5:00 PM" />
+
+                    <div className ="form-field"  >
+                    <div className="col s4 " >
+                      <TimeButton value="09:00:00" time="9:00 AM"/>
+                      <TimeButton value="10:00:00" time="10:00 AM" />
+                      <TimeButton value="11:00:00" time="11:00 AM" />
+                      <TimeButton value="12:00:00" time="12:00 PM" />
+                      <TimeButton value="13:00:00" time="1:00 PM" />
+                      <TimeButton value="14:00:00" time="2:00 PM" />
+                      <TimeButton value="15:00:00" time="3:00 PM" />
+                      <TimeButton value="16:00:00" time="4:00 PM" />
+                      <TimeButton value="17:00:00" time="5:00 PM" />
                     </div>
                     <div className="col s4 push-s2">
-                    <TimeButton time="9:30 AM" />
-                    <TimeButton time="10:30 AM" />
-                    <TimeButton time="11:30 AM" />
-                    <TimeButton time="12:30 PM" />
-                    <TimeButton time="1:30 PM" />
-                    <TimeButton time="2:30 PM" />
-                    <TimeButton time="3:30 PM" />
-                    <TimeButton time="4:30 PM" />
+                    <TimeButton value="09:30:00" time="9:30 AM" />
+                    <TimeButton value="10:30:00" time="10:30 AM" />
+                    <TimeButton value="11:30:00" time="11:30 AM" />
+                    <TimeButton value="12:30:00" time="12:30 PM" />
+                    <TimeButton value="13:30:00" time="1:30 PM" />
+                    <TimeButton value="14:30:00" time="2:30 PM" />
+                    <TimeButton value="15:30:00" time="3:30 PM" />
+                    <TimeButton value="16:30:00" time="4:30 PM" />
+                    </div>
                     </div>
                   </div>
                 </div>
-
+                {
+                  <form onSubmit={this.handleSubmit}>
                 <div className="card-content">
                   <button className="btn blue darken-4" type="submit">
                     Set Available Times
                   </button>
                 </div>
+                          
+                </form>
+              }
               </div>
             </div>
           </div>
@@ -242,3 +278,8 @@ export default class WorkerAvailabilities extends Component {
     );
   }
 }
+setAvailabilities.propTypes = {
+  setAvailabilities: PropTypes.func.isRequired,
+};
+
+export default connect(null, { setAvailabilities })(WorkerAvailabilities);
