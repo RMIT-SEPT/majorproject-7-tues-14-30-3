@@ -1,5 +1,5 @@
 import axios from "axios";
-import { GET_ERRORS, SET_CURRENT_USER } from "./types";
+import { GET_ERRORS, SET_CURRENT_USER, ERR_MESSAGE } from "./types";
 import jwt_decode from "jwt-decode"; 
 import setJWTToken from "../securityUtils/setJWTToken";
 
@@ -47,6 +47,8 @@ export const createAccount = (newAccount, services, type, history) => async disp
 }
 
 export const login = (LoginRequest, history) => async dispatch =>{
+
+  dispatch({ type: ERR_MESSAGE, payload: null });
   try{
     console.log(LoginRequest)
     const res = await axios.post("http://localhost:8080/api/users/login",  LoginRequest);
@@ -124,12 +126,21 @@ export const login = (LoginRequest, history) => async dispatch =>{
     history.push("/Dashboard");
 
   } catch(err){
+
     dispatch({
 
       type:GET_ERRORS,
       payload:err.response.data
 
     });
+
+    if(err.response.status === 401){
+
+    dispatch({ type: ERR_MESSAGE, payload: "Email or Password" });
+
+    history.push("/CustomerLogIn");
+
+  }
 
 
   }
