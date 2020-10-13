@@ -29,7 +29,7 @@ public class NotificationService {
             return Collections.EMPTY_LIST;
         }
 
-        Iterable<Notification> notifications = notificationRepository.findByUserAndShown(user, false);
+        Iterable<Notification> notifications = notificationRepository.getCurrentByUser(userId);
         Iterator<Notification> iterator = notifications.iterator();
 
         while(iterator.hasNext()){//Update all notifications to be shown
@@ -42,7 +42,7 @@ public class NotificationService {
     }
 
     public Iterable<Notification> peekUserNotifications(User user){
-        return notificationRepository.findByUserAndShown(user, false);
+        return notificationRepository.getCurrentByUser(user.getId());
     }
 
 }

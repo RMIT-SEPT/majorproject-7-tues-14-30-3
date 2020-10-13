@@ -34,6 +34,8 @@ public class Notification {
     Date createdAt;
     Date modifiedAt;
 
+    public Notification(){}
+
     public Notification(User user, NotificationType type, String name, String message){
         this.user = user;
         this.type = type;
