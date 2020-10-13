@@ -74,6 +74,8 @@ export default class LoggedInDashboard extends Component {
     if (localStorage.getItem("workerObject") != null) {
       const worker = localStorage.getItem("workerObject");
 
+      if(worker['accepted']===true){
+
       return (
         <div className="loggedInComponent">
           <div class="container">
@@ -126,6 +128,31 @@ export default class LoggedInDashboard extends Component {
           </div>
         </div>
       );
+
+      }
+
+      else {
+        return (
+          <div className="loggedInComponent">
+            <div class="container">
+              <div class="row">
+                <div className="col l8 s12">
+                <br></br>
+                <br></br>
+                <br></br>
+                <br></br>
+                <br></br>
+                <br></br>
+                  <h5>
+                    <b>Please Await Admin Approval</b>
+                  </h5>
+  
+                </div>
+              </div>
+            </div>
+          </div>
+        );
+      }
     }
 
     return (
