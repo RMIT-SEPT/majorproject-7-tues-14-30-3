@@ -1,12 +1,19 @@
 import React, { Component } from "react";
+import {setBooking} from "../../../actions/setBookingActions";
+import { connect } from "react-redux";
+import PropTypes from "prop-types";
 
-export default class DayButton extends Component {
+
+ class DayButton extends Component {
   constructor(props) {
     super(props);
+
+ 
     this.state = {
       blue: false,
       time: "",
-      clicked: true,
+      clicked: true
+
     };
     this.handleClick = this.handleClick.bind(this);
   }
@@ -15,8 +22,13 @@ export default class DayButton extends Component {
     this.setState({blue: !this.state.blue})
     this.setState({clicked: !this.state.clicked})
     this.setState({timeValue: this.props.timeValue})
-    console.log(this.props.timeValue)
-    console.log(this.state.clicked.toString())
+
+    const details = {bookingTime: this.props.timeValue, click:this.state.clicked}
+
+    //console.log(this.state.timeArray)
+    this.props.setBooking(details);
+    //console.log(this.props.timeValue)
+    //console.log(this.state.clicked.toString())
   }
 
   render() {
@@ -32,3 +44,8 @@ export default class DayButton extends Component {
     );
   }
 }
+setBooking.propTypes = {
+  setBooking: PropTypes.func.isRequired,
+};
+
+export default connect(null, { setBooking })(DayButton);

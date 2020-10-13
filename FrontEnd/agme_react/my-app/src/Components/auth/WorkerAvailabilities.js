@@ -20,7 +20,7 @@ class WorkerAvailabilities extends Component {
       day: null,
       blue: false,
       time:null,
-      times:timeArr
+      timeStore: timeArr
     };
 
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -35,9 +35,57 @@ class WorkerAvailabilities extends Component {
     this.setState({ worker: this.state.workers[e.target.value] });
   }
 
-  handleTime(e){
-    //setState({time:e.target.value});
-    console.log(e.target.value)
+  handleTime(){
+
+   // this.state.timeStore.push(this.props.clicked);
+
+
+   if (this.props.clicked!== null){
+    var clickCheck = this.props.clicked['click'];
+    var booking = this.props.clicked['bookingTime'];
+  if(this.state.timeStore.length === 0){
+    if (clickCheck){
+      this.state.timeStore.push(booking);
+    }
+  } else {
+    if (clickCheck){
+      var checked = true;
+
+      this.state.timeStore.forEach((timer) => {
+        if (timer === booking) {
+          checked = false;
+        } 
+      });
+
+      if (checked){
+        this.state.timeStore.push(booking)
+      }
+
+
+    } else {
+      var checked = true;
+      var count = 0;
+      
+
+      this.state.timeStore.forEach((timer, index) => {
+        if (timer === booking) {
+          checked = false;
+          count = index;
+        } 
+      });
+
+      if (!checked){
+        this.state.timeStore.splice(count,1);
+ 
+      }
+
+
+    }
+
+  }
+
+}
+
   }
 
   handleDayChange(e) {
@@ -50,11 +98,11 @@ class WorkerAvailabilities extends Component {
 
   handleSubmit(e) {
     e.preventDefault();
-
-    console.log(this.state.day)
-    console.log()
+    this.handleTime();
+   // console.log(this.state.day)
+  //  console.log(this.state.timeStore)
  
-   // this.props.setAvailabilities(this.state.worker['id'], this.state.day, this.state.times, this.props.history);
+    this.props.setAvailabilities(this.state.worker['id'], this.state.day, this.state.timeStore, this.props.history);
 
   }
 
@@ -285,4 +333,10 @@ setAvailabilities.propTypes = {
   setAvailabilities: PropTypes.func.isRequired,
 };
 
-export default connect(null, { setAvailabilities })(WorkerAvailabilities);
+const stateToProps = (state) =>{
+  return {
+    clicked:state.clicked
+  }
+}
+
+export default connect(stateToProps, { setAvailabilities })(WorkerAvailabilities);
