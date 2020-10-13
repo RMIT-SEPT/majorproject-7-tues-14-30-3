@@ -1,7 +1,5 @@
 package com.rmit.sept.agme.web;
 
-import com.rmit.sept.agme.model.Availability;
-import com.rmit.sept.agme.model.DayEnum;
 import com.rmit.sept.agme.model.Worker;
 import com.rmit.sept.agme.services.AvailabilityService;
 import com.rmit.sept.agme.services.WorkerService;
