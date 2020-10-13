@@ -10,6 +10,7 @@ export const createBooking = (booking, history) => async dispatch => {
       
     
     history.push("/Dashboard");
+    history.go(0);
   } catch (err) {
     dispatch({
       type: GET_ERRORS,

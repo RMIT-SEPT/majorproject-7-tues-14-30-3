@@ -6,6 +6,8 @@ import messageReducer from './errorMessage';
 import accountReducer from "./accountReducer";
 import securityReducer from "./securityReducer";
 import clickedReducer from "./clickedBookingReducer";
+import timesReducer from "./timesReducer";
+
 
 const rootReducer = combineReducers({
   errors: errorReducer,
@@ -14,7 +16,8 @@ const rootReducer = combineReducers({
   message:messageReducer,
   account:accountReducer,
   security:securityReducer,
-  clicked:clickedReducer
+  clicked:clickedReducer,
+  times:timesReducer
 })
 
 export default rootReducer

@@ -8,3 +8,4 @@ export const GET_ACCOUNT = "GET_ACCOUNT";
 export const GET_ACCOUNTS = "GET_ACCOUNTS";
 export const SET_CURRENT_USER = "SET_CURRENT_USER";
 export const CLICKED = "CLICKED";
+export const TIMES = "TIMES";

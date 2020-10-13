@@ -30,7 +30,7 @@ public class AvailabilityController {
 
     @GetMapping("")
     public ResponseEntity<?> getAvailabilities(@RequestParam(name = "workerId") Long workerId,
-                                               @RequestBody(required = false)@DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)  LocalDate date){
+                                               @RequestParam(name = "date", required = false)@DateTimeFormat(iso = DateTimeFormat.ISO.DATE)  LocalDate date){
         Optional<Worker> worker = workerService.get(workerId);
         if(!worker.isPresent()){ //No worker with workerid found in repo
             return new ResponseEntity<>("No Worker Found", HttpStatus.NOT_FOUND);

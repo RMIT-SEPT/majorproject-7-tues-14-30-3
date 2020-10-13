@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { createBooking } from "../../actions/bookingActions";
+import { getTimes } from "../../actions/getTimesActions";
 import axios from "axios";
 import setJWTToken from "../../securityUtils/setJWTToken";
 
@@ -18,6 +19,7 @@ export class Booking extends Component {
     }
 
     var arrayObj = [];
+    var arrayObj2 = [];
 
     this.state = {
       workers: null,
@@ -27,18 +29,27 @@ export class Booking extends Component {
       startDate: "",
       startTime: "",
       endTime: "",
+      times:arrayObj2,
       service: null,
       services: null,
       sLoaded: false,
       loaded: false,
+      times:null,
+      timesLoader:true
     };
 
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.setTimes = this.setTimes.bind(this);
+  }
+
+  setTimes(){
+    this.setState({times:this.props.times, timesLoader:true});
   }
 
   handleChange(e) {
     this.setState({ [e.target.name]: e.target.value });
+
     if (e.target.name === "service") {
       var serviceName = e.target.value;
 
@@ -61,14 +72,32 @@ export class Booking extends Component {
         });
       }
     }
+
+
+    if (e.target.name === "startDate") {
+      
+      if(this.state.worker !==""){
+
+        this.props.getTimes(this.state.workers[this.state.worker]['id'],
+                               e.target.value, this.props.history);
+      //  this.setState({timesLoader:false});
+      } else {
+
+        this.setState({startDate:""});
+      }
+
+     
+
+
+    }
   }
 
   handleSubmit(e) {
     e.preventDefault();
 
     //formats dates into database friendly pattern
-    var starting = this.state.startDate + " " + this.state.startTime + ":00";
-    var ending = this.state.startDate + " " + this.state.endTime + ":00";
+    var starting = this.state.startDate + " " + this.state.startTime;
+    var ending = this.state.startDate + " " + this.state.endTime;
 
     const newBooking = {
       customer: this.state.customer,
@@ -116,7 +145,8 @@ export class Booking extends Component {
 
   render() {
     //used to render only after workers have been grabbed
-    if (!this.state.loaded || !this.state.sLoaded) {
+    if (!this.state.loaded || !this.state.sLoaded ) {
+
       return (
         <div className="center-align">
           <div className="progress">
@@ -221,34 +251,108 @@ export class Booking extends Component {
                         onChange={this.handleChange}
                         required
                       ></input>
+                      {(this.state.worker!=="")?null:
+                        <h6>Please select a worker</h6>
+
+                      }
                     </div>
                   </div>
 
                   <div className="card-content" data-test="start-time-picker">
+                 
                     <h6> Pick Start time </h6>
+                  
                     <div className="form-field">
-                      <input
-                        type="time"
-                        className="timepicker"
+                    {(this.props.times === null) ?
+                      (this.state.startDate ==="") ? 
+                        (
+                          <select className="browser-default" required>
+                          <option value="" disabled selected>
+                            Please Select a Day
+                          </option>
+                        </select>
+                        ) :(null)
+                        
+                      : (this.props.times.length ===0)?
+                      
+                      (
+                      
+                        <select className="browser-default" required>
+                        <option value="" disabled selected>
+                          No available shifts on this day
+                        </option>
+                      </select>)
+                      
+                      :
+                      
+                      
+                      (<select
+                        className="browser-default"
                         name="startTime"
                         value={this.state.startTime}
                         onChange={this.handleChange}
                         required
-                      ></input>
+                      >
+                        <option value="" disabled selected>
+                          Select Times
+                        </option>
+                        {this.props.times.map((time, index) => (
+                          <option key={index} value={time}>
+                            {time}
+                          </option>
+                        ))}
+                      </select>
+                    
+                      )
+                    }
                     </div>
                   </div>
 
                   <div className="card-content" data-test="end-time-picker">
                     <h6> Pick End time </h6>
                     <div className="form-field">
-                      <input
-                        type="time"
-                        className="timepicker"
+                    {(this.props.times === null) ?
+                      (this.state.startDate ==="") ? 
+                        (
+                          <select className="browser-default" required>
+                          <option value="" disabled selected>
+                            Please Select a Day
+                          </option>
+                        </select>
+                        ) :(null)
+                        
+                      : (this.props.times.length ===0)?
+                      
+                      (
+                      
+                        <select className="browser-default" required>
+                        <option value="" disabled selected>
+                          No available shifts on this day
+                        </option>
+                      </select>)
+                      
+                      :
+                      
+                      
+                      (<select
+                        className="browser-default"
                         name="endTime"
                         value={this.state.endTime}
                         onChange={this.handleChange}
                         required
-                      ></input>
+                      >
+                        <option value="" disabled selected>
+                          Select Times
+                        </option>
+                        {this.props.times.map((time, index) => (
+                          <option key={index} value={time}>
+                            {time}
+                          </option>
+                        ))}
+                      </select>
+                    
+                      )
+                    }
                     </div>
                   </div>
 
@@ -273,12 +377,13 @@ export class Booking extends Component {
 }
 Booking.propTypes = {
   createBooking: PropTypes.func.isRequired,
+  getTimes:PropTypes.func.isRequired
 };
 
-//const stateToProps = (state) =>{
-// return {
+const stateToProps = (state) =>{
+  return {
+    times:state.times
+  }
+}
 
-// }
-//}
-
-export default connect(null, { createBooking })(Booking);
+export default connect(stateToProps, { createBooking,getTimes })(Booking);
