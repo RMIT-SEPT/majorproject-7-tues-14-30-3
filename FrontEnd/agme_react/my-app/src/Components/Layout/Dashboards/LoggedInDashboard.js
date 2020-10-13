@@ -82,11 +82,7 @@ export default class LoggedInDashboard extends Component {
                 <h5>
                   <b>Check your Bookings</b>
                 </h5>
-                {worker.accepted === false ? (
-                  <h4>Approved</h4>
-                ) : (
-                  <h4>Not Approved</h4>
-                )}
+                
 
                 <Link to="/CurrentBooking">
                   <button

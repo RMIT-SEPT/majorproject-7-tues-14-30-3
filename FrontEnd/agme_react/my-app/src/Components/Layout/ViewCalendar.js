@@ -126,10 +126,14 @@ async componentDidMount() {
           Id: data['id'],
           Subject: data['service']['service'],
           StartTime: new Date(startTime.substring(0,4),startTime.substring(5,7)-1, startTime.substring(8,10),startTime.substring(11,13), startTime.substring(14,16) ),
-          EndTime: new Date(startTime.substring(0,4),endTime.substring(5,7)-1, endTime.substring(8,10),endTime.substring(11,13), startTime.substring(14,16) )
+          EndTime: new Date(endTime.substring(0,4),endTime.substring(5,7)-1, endTime.substring(8,10),endTime.substring(11,13), startTime.substring(14,16) )
   
   
         };
+        if(data['cancelled']==true){
+          bookObject.Subject = "Cancelled";
+        }
+
         this.state.localData.push(bookObject);
       });
 
