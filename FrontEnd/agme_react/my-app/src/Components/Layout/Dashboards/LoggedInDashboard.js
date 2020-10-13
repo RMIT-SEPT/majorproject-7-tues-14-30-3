@@ -72,9 +72,12 @@ export default class LoggedInDashboard extends Component {
 
     //if logged in user is worker, display this, else display customer version
     if (localStorage.getItem("workerObject") != null) {
-      const worker = localStorage.getItem("workerObject");
+      
+      const worker = JSON.parse(localStorage.getItem("workerObject"));
 
-      if(worker['accepted']===true){
+      console.log(worker)
+
+      if(worker['accepted'] === true){
 
       return (
         <div className="loggedInComponent">
