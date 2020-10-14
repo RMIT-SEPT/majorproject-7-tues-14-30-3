@@ -61,7 +61,7 @@ class WorkerAvailabilities extends Component {
     }
   }
 
-  updating(workerId){
+  updating(){
     var account;
       
       account = this.state.worker;
@@ -128,13 +128,18 @@ class WorkerAvailabilities extends Component {
 
   handleDayChange(e) {
     this.setState({ day: e.target.value });
-    console.log(e.target.value)
+
+    
+    var dayIndex = parseInt(e.target.value, 10);
+    dayIndex = dayIndex -1;
+
     this.state.arrayOne.length =0;
     this.state.arrayTwo.length = 0;
 
     if(this.state.availabilities!==null){
-    if(this.state.availabilities[e.target.value].length !==0){
-        this.state.availabilities[e.target.value].forEach((times,index) =>{
+    if(this.state.availabilities[dayIndex].length !==0){
+
+        this.state.availabilities[dayIndex].forEach((times,index) =>{
             if (index%2===0){
               var value = times.substring(0,5)
               this.state.arrayOne.push(value);
@@ -143,7 +148,7 @@ class WorkerAvailabilities extends Component {
 
         });
 
-        this.state.availabilities[e.target.value].forEach((times,index) =>{
+        this.state.availabilities[dayIndex].forEach((times,index) =>{
           if (index%2===1){
             var value = times.substring(0,5)
             this.state.arrayTwo.push(value)
@@ -478,7 +483,7 @@ class WorkerAvailabilities extends Component {
                       <div className="form-field">
                       <button
                       className="btn blue darken-4"
-                      onClick={this.updating.bind(this, this.state.worker['id'])}
+                      onClick={this.updating}
                     >
                       Update Service
                     </button>
