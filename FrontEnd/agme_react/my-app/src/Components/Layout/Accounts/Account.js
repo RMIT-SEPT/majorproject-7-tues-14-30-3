@@ -71,7 +71,7 @@ export class Account extends Component {
       account = JSON.parse(localStorage.getItem("customerObject"));
     } else if (localStorage.getItem("workerObject") !== null) {
       account = JSON.parse(localStorage.getItem("workerObject"));
-      account["service"]["service"] = this.state.service;
+    //  account["service"]["service"] = this.state.service;
     } else if (localStorage.getItem("adminObject") !== null) {
       account = JSON.parse(localStorage.getItem("adminObject"));
     }
@@ -83,7 +83,7 @@ export class Account extends Component {
 
     console.log(account);
 
-    this.props.updateAccount(account, this.state.type, this.props.history);
+    this.props.updateAccount(account, this.state.type, true,this.props.history);
     console.log(account);
 
     this.setState({ editStatus: false });
@@ -198,7 +198,7 @@ export class Account extends Component {
                           ></input>
                         </div>
                       </div>
-
+{/*
                       <div className="card-content">
                         {this.state.type !== "Worker" ? null : (
                           <h7>Edit Service</h7>
@@ -222,7 +222,7 @@ export class Account extends Component {
                           </select>
                         )}
                       </div>
-
+                            */}
                       <div className="card-content" data-test="save-profile-button">
                         <button
                           className="btn btn-profile blue darken-4"
@@ -297,13 +297,13 @@ export class Account extends Component {
 
                   <div className="card-content">
                     <div className="col s3">
-                      {this.state.type !== "Worker" ? null : <h7>Service</h7>}
+                      {/*this.state.type !== "Worker" ? null : <h7>Service</h7>*/}
                     </div>
                     <div className="col s3 push-s3">
                       <h7>
-                        {this.state.type !== "Worker" ? null : (
+                        {/*this.state.type !== "Worker" ? null : (
                           <b>{this.state.profile["service"]["service"]}</b>
-                        )}
+                        )*/}
                       </h7>
                     </div>
                   </div>

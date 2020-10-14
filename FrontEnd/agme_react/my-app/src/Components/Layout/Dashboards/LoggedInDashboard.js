@@ -112,10 +112,24 @@ export default class LoggedInDashboard extends Component {
                     Past Bookings
                   </button>
                 </Link>
-                
+
                 <h6>
-                <b></b>
-              </h6>
+                  <b></b>
+                </h6>
+                <Link to="/WorkerAvailabilities">
+                <button
+                  className="btn btn-bookings blue darken-4"
+              
+                  type="submit"
+                >
+                My Availabilities
+                </button>
+              </Link>
+
+
+              <h6>
+              <b></b>
+            </h6>
 
                 <Link to="/ViewCalendar">
                   <button

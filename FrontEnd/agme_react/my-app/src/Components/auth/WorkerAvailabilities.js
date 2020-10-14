@@ -7,19 +7,36 @@ import PropTypes from "prop-types";
 import { setAvailabilities } from "../../actions/setAvailabilitiesActions";
 import setJWTToken from "../../securityUtils/setJWTToken";
 import TimeButton from "./Buttons/TimeButton";
+import { updateAccount } from "../../actions/updateActions";
 
 class WorkerAvailabilities extends Component {
   constructor(props) {
     super(props);
+    var user;
+    if (localStorage.getItem("workerObject") !== null) {
+      user = JSON.parse(localStorage.getItem("workerObject"));
+     
+    } 
 
     var timeArr = [];
+    var left = [];
+    var right = [];
     this.state = {
       workers: null,
       loaded: false,
+      wLoaded:false,
+      sLoaded:false,
       worker: null,
       day: null,
+      service:null,
+      services:null,
+      profile:user,
+      availabilities:null,
+      workerDay:null,
       blue: false,
       time:null,
+      arrayOne:left,
+      arrayTwo:right,
       timeStore: timeArr
     };
 
@@ -28,11 +45,32 @@ class WorkerAvailabilities extends Component {
     this.handleDayChange = this.handleDayChange.bind(this);
     this.handleClick = this.handleClick.bind(this);
     this.handleTime = this.handleTime.bind(this);
+    this.updating = this.updating.bind(this);
   }
 
   handleChange(e) {
-    console.log(this.state.workers[e.target.value]);
-    this.setState({ worker: this.state.workers[e.target.value] });
+    if (e.target.name === "service") {
+      this.setState({
+        service:e.target.value
+
+      });
+    }
+    if (e.target.name === "index") {
+    this.setState({ worker: this.state.workers[e.target.value],
+                      service:this.state.workers[e.target.value]['service']['service'] });
+    }
+  }
+
+  updating(workerId){
+    var account;
+      
+      account = this.state.worker;
+      account["service"]["service"] = this.state.service;
+      this.props.updateAccount(account, "Worker", false, this.props.history);
+    
+      this.setState({worker:account});
+
+    
   }
 
   handleTime(){
@@ -90,6 +128,33 @@ class WorkerAvailabilities extends Component {
 
   handleDayChange(e) {
     this.setState({ day: e.target.value });
+    console.log(e.target.value)
+    this.state.arrayOne.length =0;
+    this.state.arrayTwo.length = 0;
+
+    if(this.state.availabilities!==null){
+    if(this.state.availabilities[e.target.value].length !==0){
+        this.state.availabilities[e.target.value].forEach((times,index) =>{
+            if (index%2===0){
+              var value = times.substring(0,5)
+              this.state.arrayOne.push(value);
+              
+            }
+
+        });
+
+        this.state.availabilities[e.target.value].forEach((times,index) =>{
+          if (index%2===1){
+            var value = times.substring(0,5)
+            this.state.arrayTwo.push(value)
+          }
+
+      });
+
+        
+
+    }
+  }
   }
 
   handleClick() {
@@ -114,6 +179,33 @@ class WorkerAvailabilities extends Component {
     //in order to render page
 
     setJWTToken(localStorage.getItem("jwtToken"));
+    try {
+      const res = await axios.get("http://localhost:8080/api/service/all");
+      this.setState({ services: res.data, sLoaded: true });
+      console.log(res.data);
+    } catch (err) {
+      if (err.response.status === 404) {
+        this.setState({ sLoaded: true });
+      }
+    }
+
+
+    if (localStorage.getItem("workerObject") != null){
+    try {
+      console.log(this.state.profile)
+      const res = await axios.get("http://localhost:8080/api/worker/availability",{ params: { workerId :
+      this.state.profile['id']}
+      } );
+      this.setState({ availabilities: res.data, wLoaded: true });
+      console.log(res.data);
+    } catch (err) {
+      if (err.response.status === 404) {
+        this.setState({ wLoaded: true });
+      }
+    }} else {
+      this.setState({ wLoaded: true });
+    }
+  
 
     try {
       const res = await axios.get("http://localhost:8080/api/worker/all");
@@ -131,7 +223,7 @@ class WorkerAvailabilities extends Component {
       ? "btn btn-timeslot blue darken-4"
       : "btn btn-timeslot grey";
 
-    if (!this.state.loaded) {
+    if (!this.state.loaded || !this.state.wLoaded || !this.state.sLoaded) {
       return (
         <div className="center-align">
           <div className="progress">
@@ -139,6 +231,102 @@ class WorkerAvailabilities extends Component {
           </div>
         </div>
       );
+    }
+
+    if (localStorage.getItem("workerObject") != null) {
+      return (
+        <div>
+        <Navbar />
+        <div className="row">
+          <div className="account-card">
+            <div className="col s6 push-s3">
+              <div className="card" data-test="card">
+                <div className="card-action blue darken-4 white-text center-align">
+                  <h4>
+                    <b>Availabilities</b>
+                  </h4>
+                </div>
+
+                <div class="row">
+                  <div className="card-content">
+
+
+
+                    <h6>
+                      <b>Choose Day</b>
+                    </h6>
+                    <div className="form-field">
+                      <select
+                        className="browser-default"
+                        name="index"
+                        value={this.state.day}
+                        onChange={this.handleDayChange}
+                        required
+                      >
+                        <option value="" disabled selected>
+                          Select your day
+                        </option>
+                        <option value="1">Monday</option>
+                        <option value="2">Tuesday</option>
+                        <option value="3">Wednesday</option>
+                        <option value="4">Thursday</option>
+                        <option value="5">Friday</option>
+                      </select>
+                    </div>
+                    <h6>
+                      <div className="center-align">
+                        <b>Time Slot Availabilities</b>
+                      </div>
+                    </h6>
+
+                    <div className ="form-field center-align" >
+                    <div className="col s4 avail push-s1" >
+                    {(this.state.day!=null)?
+                      (this.state.arrayOne.length !==0)?
+                      
+                      this.state.arrayOne.map((availability, index) => (
+                        <li key={index}>{""}{availability}</li>
+                    ))
+                    : (null)
+                    :(null)}
+                    </div>
+                    <div className="col s4 avail push-s2">
+                    {(this.state.day!=null)?
+                      (this.state.arrayTwo.length !==0)?
+                      
+                      this.state.arrayTwo.map((availability, index) => (
+                        <li key={index}>{" "}{availability}</li>
+                    ))
+                    : (null)
+                    :(null)}
+                    </div>
+                   
+                    </div>
+
+                  </div>
+                  <div className="center-align">
+                  {
+                    (this.state.day!=null)?
+                    (this.state.arrayOne.length !==0)?null:
+                    <h6><b>No Availabilities for this Day</b></h6>
+                    :<h6><b>Please Select a Day</b></h6>
+
+                  }
+
+              </div>
+
+                  <h6>
+                  <b></b>
+                </h6>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      );
+
     }
 
     if (this.state.worker === null) {
@@ -196,7 +384,7 @@ class WorkerAvailabilities extends Component {
                           <h6>No workers left to approve</h6>
                         ) : (
                           <h6>
-                            Please Select a Worker to assign working times to
+                            Please Select a Worker to assign working times
                           </h6>
                         )}
                       </div>
@@ -258,7 +446,44 @@ class WorkerAvailabilities extends Component {
                           ))}
                         </select>
                       )}
+                      </div>
+                    
+                      <div className="form-field">
+                        <br></br>
+                      <h6>
+                      <b> Current Service :</b>{" "}
+                      { this.state.worker['service']['service']}
+                    </h6><br></br>
+                    
+                        
+                        
+                          <select
+                            className="browser-default"
+                            onChange={this.handleChange}
+                            value={this.state.service}
+                            name="service"
+                          >
+                            <option value="" disabled selected>
+                              Choose your option
+                            </option>
+                            {this.state.services.map((service, index) => (
+                              <option key={index} value={service["service"]}>
+                                {" "}
+                                {service["service"]}{" "}
+                              </option>
+                            ))}
+                          </select>
+                          <br></br>
+                      </div>
+                      <div className="form-field">
+                      <button
+                      className="btn blue darken-4"
+                      onClick={this.updating.bind(this, this.state.worker['id'])}
+                    >
+                      Update Service
+                    </button>
                     </div>
+                            
                     <h6>
                       <b> Day</b>
                     </h6>
@@ -337,6 +562,7 @@ class WorkerAvailabilities extends Component {
 }
 setAvailabilities.propTypes = {
   setAvailabilities: PropTypes.func.isRequired,
+  updateAccount: PropTypes.func.isRequired
 };
 
 const stateToProps = (state) =>{
@@ -345,4 +571,4 @@ const stateToProps = (state) =>{
   }
 }
 
-export default connect(stateToProps, { setAvailabilities })(WorkerAvailabilities);
+export default connect(stateToProps, { setAvailabilities , updateAccount})(WorkerAvailabilities);

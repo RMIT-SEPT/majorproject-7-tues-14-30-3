@@ -54,6 +54,14 @@
   display: inline-block;
 }
 
+.avail {
+  width: 40%;
+  margin: 1%;
+  padding:10%;
+  font-size: calc(10px + 2vmin);
+  display: inline-block;
+}
+
 .btn-bookings {
   height: 50px;
   width: 80%;
