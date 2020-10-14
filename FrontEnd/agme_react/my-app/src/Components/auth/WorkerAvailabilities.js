@@ -314,9 +314,15 @@ class WorkerAvailabilities extends Component {
                 {
                   <form onSubmit={this.handleSubmit}>
                 <div className="card-content">
-                  <button className="btn blue darken-4" type="submit">
+
+                  { (this.state.day !==null)?
+                  <button className="btn blue darken-4" type="submit" >
                     Set Available Times
-                  </button>
+                  </button>:
+                  <button disabled={true} className="btn blue darken-4" type="submit">
+                  Select a Day
+                </button>
+                  }
                 </div>
                           
                 </form>
