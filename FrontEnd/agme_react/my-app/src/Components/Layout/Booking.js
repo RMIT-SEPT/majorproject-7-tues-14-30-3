@@ -20,6 +20,8 @@ export class Booking extends Component {
 
     var arrayObj = [];
     var arrayObj2 = [];
+    var arrayObj3 = [];
+
 
     this.state = {
       workers: null,
@@ -29,22 +31,112 @@ export class Booking extends Component {
       startDate: "",
       startTime: "",
       endTime: "",
+      currDuration:"",
+      thirty:true,
+      sixty:true,
+      ninety:true,
+      oneTwenty:true,
       times:arrayObj2,
       service: null,
       services: null,
       sLoaded: false,
       loaded: false,
       times:null,
-      timesLoader:true
+      timesLoader:true,
+      durations:arrayObj3
     };
 
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.setTimes = this.setTimes.bind(this);
+    this.duration = this.duration.bind(this);
+    this.findTimes = this.findTimes.bind(this);
   }
 
   setTimes(){
     this.setState({times:this.props.times, timesLoader:true});
+  }
+
+  findTimes(time){
+    var defaultValue = ["30 Minutes", "30"]
+    var hourValue1 = ["1 Hour", "60"];
+    var hourValue2 = ["2 Hours", "120"];
+    var minValue1 = ["1 Hr 30 Minutes", "90"];
+    var hour = parseInt(time.substring(0,2), 10);
+    var mins = parseInt(time.substring(3,5), 10);
+    this.state.durations.length = 0;
+    this.state.durations.push(defaultValue);
+
+    var oneHour = hour+1;
+    var twoHour = hour+2;
+    var thirtyMin = mins+30;
+    var firstMin = mins.toString();
+    var secondMin = thirtyMin.toString();
+
+    if(mins === 0){
+      firstMin = "00";
+    }
+
+    if (thirtyMin == 60){
+      secondMin = "00"
+    }
+
+    var firstHour = oneHour.toString() + ":" +firstMin+":00";
+    var secondHour = twoHour.toString() + ":" +firstMin+":00";
+    var ninteyMins = oneHour.toString() + ":" +secondMin+":00";
+
+    var flag1 = false;
+    var flag2 = false;
+
+    this.props.times.forEach(time => {
+
+      if (!flag1){
+        if(time === firstHour){
+          this.state.durations.push(hourValue1);
+          flag1 = true;
+        } 
+      }
+
+    });
+
+
+    if(flag1){
+
+      this.props.times.forEach(time => {
+
+          if(time === ninteyMins){
+            this.state.durations.push(minValue1);
+            flag2 = true;
+          } 
+        
+
+      });
+    }
+
+    if (flag1 && flag2){
+      this.props.times.forEach(time => {
+
+        if(time === secondHour){
+          this.state.durations.push(hourValue2);
+        } 
+    
+    });
+
+
+    }
+
+
+
+  }
+
+  duration(time){
+    var hour = parseInt(this.state.startTime.substring(0,2), 10);
+    var mins = parseInt(this.state.startTime.substring(3,5), 10);
+    var newHour =time;
+    var value = "";
+    var minValue;
+
+
   }
 
   handleChange(e) {
@@ -86,8 +178,17 @@ export class Booking extends Component {
         this.setState({startDate:""});
       }
 
-     
+    }
+    
+    if (e.target.name === "startTime") {
+      
+      this.findTimes(e.target.value)
 
+    }
+    
+    if (e.target.name === "currDuration") {
+      
+      this.duration(e.target.value)
 
     }
   }
@@ -309,50 +410,61 @@ export class Booking extends Component {
                   </div>
 
                   <div className="card-content" data-test="end-time-picker">
-                    <h6> Pick End time </h6>
+                    <h6> Select booking duration </h6>
                     <div className="form-field">
-                    {(this.props.times === null) ?
-                      (this.state.startDate ==="") ? 
+                      {(this.state.startTime === "") ?
+                      
+                     
                         (
+
                           <select className="browser-default" required>
                           <option value="" disabled selected>
-                            Please Select a Day
+                            Please Select Time
                           </option>
                         </select>
-                        ) :(null)
+
+                        ) 
                         
-                      : (this.props.times.length ===0)?
-                      
-                      (
-                      
-                        <select className="browser-default" required>
-                        <option value="" disabled selected>
-                          No available shifts on this day
-                        </option>
-                      </select>)
-                      
                       :
                       
                       
-                      (<select
+                       [ 
+                       /* <button disabled={this.state.thirty} className="btn btn-time blue darken-4" 
+                                    onClick={this.duration.bind(1)}>
+                        30 Minutes
+                        </button> ,
+                        <button disabled={this.state.sixty} className="btn btn-time blue darken-4" 
+                        onClick={this.duration.bind(2)}>
+                        1 Hour
+                        </button> ,
+                        <button disabled={this.state.ninety} className="btn btn-time blue darken-4" 
+                        onClick={this.duration.bind(3)}>
+                        1H 30 Minutes
+                        </button> ,
+                        <button disabled={this.state.oneTwenty} className="btn btn-time blue darken-4" 
+                        onClick={this.duration.bind(4)}>
+                        2 Hours
+                        </button> */
+                        
+                        <select
                         className="browser-default"
-                        name="endTime"
-                        value={this.state.endTime}
+                        name="currDuration"
+                        value={this.state.currDuration}
                         onChange={this.handleChange}
                         required
                       >
                         <option value="" disabled selected>
-                          Select Times
+                          Select Duration
                         </option>
-                        {this.props.times.map((time, index) => (
-                          <option key={index} value={time}>
-                            {time}
+                        {this.state.durations.map((times, index) => (
+                          <option key={index} value={times['1']}>
+                            {times['0']}
                           </option>
                         ))}
-                      </select>
-                    
-                      )
-                    }
+                        </select>
+                        ]
+                      
+                      }
                     </div>
                   </div>
 

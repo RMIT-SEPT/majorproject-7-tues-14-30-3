@@ -48,6 +48,12 @@
   display: inline-block;
 }
 
+.btn-time {
+  width: 20%;
+  margin: 1%;
+  display: inline-block;
+}
+
 .btn-bookings {
   height: 50px;
   width: 80%;
