@@ -133,9 +133,33 @@ export class Booking extends Component {
     var hour = parseInt(this.state.startTime.substring(0,2), 10);
     var mins = parseInt(this.state.startTime.substring(3,5), 10);
     var newHour =time;
-    var value = "";
-    var minValue;
+    var hourValue = "";
+    var minValueInt = mins+30;
+    var minValue = minValueInt.toString();
+    var finalValue = "";
 
+    if(minValueInt === 60){
+      hour = hour+1;
+      minValue = "00";
+    }
+
+    if(time === "30"){
+      finalValue = hour.toString()+":"+minValue+":00";
+
+    } else if (time === "60"){
+      hour = hour+1;
+      finalValue = hour.toString()+":"+mins.toString()+":00";
+
+    } else if (time === "90"){
+      hour = hour+1;
+      finalValue = hour.toString()+":"+minValue+":00";
+      
+    } else if (time === "120"){
+      hour = hour+2;
+      finalValue = hour.toString()+":"+mins.toString()+":00";
+    }
+
+    this.setState({endTime:finalValue});
 
   }
 
