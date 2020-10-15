@@ -147,7 +147,7 @@ export default class PastBooking extends Component {
 
     return (
 
-      <div>
+       <div>
         <div className="row">
           <div className="col s12 m6 offset-m3">
             <div className="card" data-test="past-bookings-card">
@@ -371,7 +371,7 @@ export default class PastBooking extends Component {
                   )}
                 </div>
               </div>
-
+              
             </div>
           </div>
         </div>

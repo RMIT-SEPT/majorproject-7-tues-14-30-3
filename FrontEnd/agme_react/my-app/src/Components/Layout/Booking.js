@@ -381,7 +381,15 @@ export class Booking extends Component {
 
                       }
                     </div>
+                    <div className='link-redirect'>
+                    <Link to="/WorkerProfiles">
+                      <h6>Get to know our workers</h6>
+                    </Link>
                   </div>
+                  </div>
+
+               
+
 
                   <div className="card-content" data-test="start-time-picker">
                  
@@ -447,6 +455,7 @@ export class Booking extends Component {
                           </option>
                         </select>
 
+
                         ) 
                         
                       :
@@ -490,7 +499,9 @@ export class Booking extends Component {
                       
                       }
                     </div>
+
                   </div>
+
 
                   <div className="col s12 m6 offset-m3" data-test="book-btn">
                     <button
@@ -499,6 +510,7 @@ export class Booking extends Component {
                     >
                       Book
                     </button>
+
                   </div>
 
                   <div className="card-content center-align"></div>

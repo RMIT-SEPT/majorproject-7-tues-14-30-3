@@ -142,3 +142,17 @@ nav ul .waves-effect i {
   position: relative;
   top: 10px;
 }
+
+.link-redirect {
+  text-align: right;
+}
+
+.link-redirect-wp {
+  text-align: right;
+  margin: 35px 70px 50px 80px;
+}
+
+.link-redirect-wpp {
+  text-align: right;
+  margin: 35px 70px 20px 10px;
+}

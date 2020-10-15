@@ -25,6 +25,7 @@ class WorkerConfirmation extends Component {
     this.setState({ worker: this.state.workers[e.target.value] });
   }
 
+
   approve() {
     this.props.approveWorker(this.state.worker["id"], this.props.history);
   }
@@ -53,12 +54,14 @@ class WorkerConfirmation extends Component {
   render() {
     if (!this.state.loaded) {
       return (
+
         <div className="center-align">
           <div className="progress">
             <div className="indeterminate"></div>
           </div>
         </div>
       );
+
     }
 
     if (this.state.worker === null) {
@@ -82,6 +85,7 @@ class WorkerConfirmation extends Component {
                       <div className="form-field">
                         {/* if workers exist, loop through each worker in the drop down menu for the form
                   if they dont exit, load message saying workers dont exist*/}
+
                         {this.state.workers === null ? (
                           <select className="browser-default" required>
                             <option value="" disabled selected>
@@ -117,6 +121,7 @@ class WorkerConfirmation extends Component {
                           <h6>Please Select a Worker to approve</h6>
                         )}
                       </div>
+
                     </div>
                   </div>
                 </div>
@@ -146,6 +151,7 @@ class WorkerConfirmation extends Component {
                     <div className="form-field">
                       {/* if workers exist, loop through each worker in the drop down menu for the form
                   if they dont exit, load message saying workers dont exist*/}
+
                       {this.state.workers === null ? (
                         <h6> No workers available</h6>
                       ) : (
@@ -168,6 +174,7 @@ class WorkerConfirmation extends Component {
                           ))}
                         </select>
                       )}
+
                     </div>
 
                     <div className="card-content">
