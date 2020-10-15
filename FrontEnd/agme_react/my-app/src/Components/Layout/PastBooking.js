@@ -332,7 +332,7 @@ export default class PastBooking extends Component {
                             </h6>
                             <h6>End time: {book["endTime"].substring(11)}</h6>
 
-                            <br></br>
+
                             <br></br>
                             <br></br>
                           </div>

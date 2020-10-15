@@ -1,8 +1,6 @@
 package com.rmit.sept.agme.services;
 
-import com.rmit.sept.agme.model.Availability;
-import com.rmit.sept.agme.model.Booking;
-import com.rmit.sept.agme.model.Worker;
+import com.rmit.sept.agme.model.*;
 import com.rmit.sept.agme.repositories.AvailabilityRepository;
 import com.rmit.sept.agme.repositories.WorkerRepository;
 import com.rmit.sept.agme.repositories.BookingRepository;
@@ -26,6 +24,9 @@ public class AvailabilityService {
 
     @Autowired
     BookingRepository bookingRepository;
+
+    @Autowired
+    NotificationService notificationService;
 
     public Collection<LocalTime> getByDay(int day, long workerId){
         Optional<Worker> worker = workerRepository.findById(workerId);
@@ -61,6 +62,22 @@ public class AvailabilityService {
             }
         }
 
+        //Add notification to worker (max 1 notification of this type)
+        Iterable<Notification> notifications = notificationService.peekUserNotifications(worker.get().getUser());
+        boolean notificationFound = false;
+        for (Notification notification: notifications) {
+            if(notification.getName().equals("Availability Changed!")){
+                notificationFound = true;
+            }
+        }
+
+        if(!notificationFound){
+            Notification availabilityNotification = new Notification(worker.get().getUser(),
+                    NotificationType.NEUTRAL, "Availability Changed!",
+                    "The admin has updated your availability.");
+            notificationService.createNotification(availabilityNotification); //Add notification for worker
+        }
+
         //Return saved timeSlots
         return savedTimeSlots;
     }
@@ -78,12 +95,10 @@ public class AvailabilityService {
         //Get worker's bookings
         Date startOfDay = Date.from(date.atStartOfDay().atZone(ZoneId.systemDefault()).toInstant());
         Date endOfDay = Date.from(date.plusDays(1).atStartOfDay().atZone(ZoneId.systemDefault()).toInstant());
-        String end = endOfDay.toString();
-        String start = startOfDay.toString();
-        String now  = new Date().toString();
         Iterator<Booking> bookings = bookingRepository.getBetweenByWorker(workerId, startOfDay, endOfDay)
                 .iterator();
 
+        //Transform bookings objects to array
         Collection<LocalTime[]> bookingList = new ArrayList<>();
         while(bookings.hasNext()){
             Booking booking = bookings.next();
@@ -105,7 +120,7 @@ public class AvailabilityService {
             LocalTime timeSlot = availabilities.next().getTimeSlot();
             boolean overlap = false;
 
-            for(LocalTime[] booking: bookingList){ //Add availability if there is no booking
+            for(LocalTime[] booking: bookingList){
 
                 if(timeSlot.isAfter(booking[0]) ||
                         timeSlot.equals(booking[0])){
@@ -115,7 +130,7 @@ public class AvailabilityService {
                 }
             }
 
-            if(!overlap){
+            if(!overlap){ //Add availability if there is no booking overlaps
                 timeSlots.add(timeSlot);
             }
         }

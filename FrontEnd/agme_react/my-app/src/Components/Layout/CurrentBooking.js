@@ -320,13 +320,14 @@ import setJWTToken from "../../securityUtils/setJWTToken";
 
                                 {
                                   (book['cancelled'] !== false)? null:(
-                                    <button className="btn btn-cancel blue darken-4" onClick={this.cancelling.bind(this, book['id'])} >
-                                    Cancel Booking
-                                    </button> 
+                                    [<br></br>,
+                                      <button className="btn btn-cancel blue darken-4" onClick={this.cancelling.bind(this, book['id'])} >
+                                      Cancel Booking
+                                      </button> 
+                                      ]
                                   )
                                 }
                                 
-                                <br></br>
                                 <br></br>
                                 <br></br>
                               </div>

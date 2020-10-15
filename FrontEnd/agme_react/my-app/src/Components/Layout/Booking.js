@@ -363,6 +363,11 @@ export class Booking extends Component {
                         <br></br>
                       )}
                     </div>
+                    <div className='link-redirect'>
+                    <Link to="/WorkerProfiles">
+                      <h6>Get to know our workers</h6>
+                    </Link>
+                  </div>
                   </div>
 
                   <div className="card-content" data-test="date-picker">
@@ -381,11 +386,7 @@ export class Booking extends Component {
 
                       }
                     </div>
-                    <div className='link-redirect'>
-                    <Link to="/WorkerProfiles">
-                      <h6>Get to know our workers</h6>
-                    </Link>
-                  </div>
+
                   </div>
 
                
