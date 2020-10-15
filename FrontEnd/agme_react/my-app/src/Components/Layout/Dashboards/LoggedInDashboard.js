@@ -73,6 +73,12 @@ export default class LoggedInDashboard extends Component {
     //if logged in user is worker, display this, else display customer version
     if (localStorage.getItem("workerObject") != null) {
       const worker = localStorage.getItem("workerObject");
+      var amount = 0;
+      if(localStorage.getItem("workerNotifs") != null){
+          const notifs = JSON.parse(localStorage.getItem("workerNotifs"));
+          amount = notifs.length;
+          console.log(amount)
+      }
 
       return (
         <div className="loggedInComponent">
@@ -114,7 +120,7 @@ export default class LoggedInDashboard extends Component {
                 
                 <h6>
                 <b></b>
-              </h6>
+                </h6>
 
                 <Link to="/ViewCalendar">
                   <button
@@ -125,6 +131,23 @@ export default class LoggedInDashboard extends Component {
                     My calendar
                   </button>
                 </Link>
+
+
+              </div>
+              <div className="col l4 s12">
+              <h5>
+                <b>Notifications</b>
+              </h5>
+
+              <Link to="/Notifications">
+                <button
+                  className="btn blue btn-approve darken-4"
+                  type="submit"
+                >
+                  Check notifications
+                </button>
+              </Link>
+              <h6><b>You have ({amount}) new notification(s)</b></h6>
               </div>
             </div>
           </div>

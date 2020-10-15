@@ -13,6 +13,7 @@ import Account from './Components/Layout/Accounts/Account'
 import WorkerConfirmation from './Components/auth/WorkerConfirmation'
 import ViewCalendar from './Components/Layout/ViewCalendar'
 import WorkerAvailabilities from './Components/auth/WorkerAvailabilities'
+import Notifications from './Components/Layout/Accounts/Notifications'
 
 
 function App() {
@@ -34,6 +35,7 @@ function App() {
             <Route exact path="/WorkerConfirmation" component = {WorkerConfirmation}/>
             <Route exact path="/ViewCalendar" component = {ViewCalendar}/>
             <Route exact path="/WorkerAvailabilities" component = {WorkerAvailabilities}/>
+            <Route exact path="/Notifications" component = {Notifications}/>
 
           </Switch>
         </div>

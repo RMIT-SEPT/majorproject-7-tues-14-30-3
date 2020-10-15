@@ -37,6 +37,12 @@
   }
 }
 
+.notifier {
+  border-bottom: double;
+  margin-bottom:30px;
+}
+
+
 .btn-form {
   width: 90%;
   display: inline-block;

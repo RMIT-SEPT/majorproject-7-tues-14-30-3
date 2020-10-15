@@ -88,6 +88,24 @@ export const login = (LoginRequest, history) => async dispatch =>{
  
     localStorage.setItem('workerObject', JSON.stringify(data3));
 
+
+      try{
+      const resnotifs = await axios.get("http://localhost:8080/api/notifications")
+        const dataNotifs = resnotifs.data;
+        console.log(resnotifs)
+   
+      localStorage.setItem('workerNotifs', JSON.stringify(dataNotifs));
+  
+      } 
+        catch (err) {  
+          
+          dispatch({
+            type: GET_ERRORS,
+            payload: err.response.data
+          });
+      }
+
+
     } 
       catch (err) {  
         
