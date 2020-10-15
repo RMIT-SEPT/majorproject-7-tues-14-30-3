@@ -2,9 +2,9 @@ import React, { Component } from "react";
 import axios from "axios";
 import setJWTToken from "../../securityUtils/setJWTToken";
 import { Link } from "react-router-dom";
+import Navbar from "./Navbars/MainNavbar/MainNavbar";
 
 export default class WorkerProfiles extends Component {
-
   constructor(props) {
     super(props);
     this.state = {
@@ -52,6 +52,7 @@ this.props.approveWorker(this.state.worker['id'], this.props.history);
       }
     }
   }
+    
     render() {
       if (!this.state.loaded) {
         return (
@@ -59,125 +60,188 @@ this.props.approveWorker(this.state.worker['id'], this.props.history);
                   <div className="progress">
                   <div className="indeterminate"></div>
               </div>
-              </div>
-          
-                );
+          </div>       
+        );
       }
+  
       if(this.state.worker === null){
-        return ( 
-        <div>
-        <div className="row">
-          <div className="account-card">
-            <div className="col s6 push-s3">
-              <div className="card" data-test="card">
-                <div className="card-action blue darken-4 white-text center-align">
-                  <h4>
-                    <b>Worker Profiles</b>
-                  </h4>
-                </div>
-                <div class="row">
-                  <div className="card-content" data-test="workers">
-                    <div className="form-field">
-                      {/* if workers exist, loop through each worker in the drop down menu for the form
-                  if they dont exit, load message saying workers dont exist*/}
-                  {/* { (this.state.workers === null) ? (
-                    <h6> No workers available</h6>
-
-                  ) :
-                  <select  className = "browser-default" name = "index"
-                  value = {this.state.index} onChange={this.handleChange}  required>
-
-                        <option value = "" disabled selected>Choose your option</option>
-                        {
-                          
-                          this.state.workers.map((worker, index) => (
-                            <option key={worker['id']} value={index}> {worker['user']['firstName']} {worker['user']['lastName']}</option>
-                          ))
-                        }
-                      
-                    </select>
-                      } */}
-                    </div>
-
-                    <div className="card-content">
-                    <div className="col s3">
-                    
+        return (
+          <div>
+          <Navbar />
+          <div className="row">
+            <div className="account-card">
+              <div className="col s6 push-s3">
+                <div className="card" data-test="card">
+                  <div className="card-action blue darken-4 white-text center-align">
+                    <h4>
+                      <b>Worker Profiles</b>
+                    </h4>
+                  </div>
+                  <div class="row">
+                    <div className="card-content" data-test="workers">
                       <h6>
-                        <b>Profile</b>
+                        <b>Get to know our workers</b>
                       </h6>
-                    </div>
-                  </div>
-                  <div className="card-content">
-                    <div className="col s3">
-                      <h7>Email
-                      {
-                          this.state.workers[this.state.worker]["user"][
-                           "username"
-                          ]
+                      <div className="form-field">
+                        {/* if workers exist, loop through each worker in the drop down menu for the form
+                    if they dont exit, load message saying workers dont exist*/}
+                    { (this.state.workers === null) ? (
+                      <select  className = "browser-default"   required>
+    
+                      <option value = "" disabled selected>No workers Available</option>
+                    
+                  </select>
+  
+                    ) :
+                    <select  className = "browser-default" name = "index"
+                    value = {this.state.index} onChange={this.handleChange}  required>
+  
+                          <option value = "" disabled selected>Choose your option</option>
+                          {
+                            
+                            this.state.workers.map((worker, index) => (
+                              <option key={worker['id']} value={index}> {worker['user']['firstName']} {worker['user']['lastName']}</option>
+                            ))
+                          }
+                        
+                      </select>
                         }
-                      </h7>
+                      </div>
+  
+                      <div className="card-content">
+                        
+                      {
+                        (this.state.workers === null)?
+                        <h6>No workers left to approve</h6>:
+                        <h6>Please select a worker to view their profile</h6>
+                        
+                                           }  
+                          <div className='link-redirect-wpp'>
+                            <Link to="/Booking">
+                               <h6>Go back to bookings page</h6>
+                            </Link>
+                          </div>                              
+                      </div>
                     </div>
-                    <div className="col s3 push-s3">
-                      {/* <h7>
-                        <b>{this.state.worker["user"]["username"]}</b>
-                      </h7> */}
-                    </div>
-                  </div>
-                  <div className="card-content">
-                    <div className="col s3">
-                      <h7>Full Name</h7>
-                    </div>
-                    <div className="col s3 push-s3">
-                      <h7>
-                        <b>
-                          {this.state.worker["user"]["firstName"]}{" "}
-                          {this.state.worker["user"]["lastName"]}
-                        </b>
-                      </h7>
-                    </div>
-                  </div>
-                  <div className="card-content">
-                    <div className="col s3">
-                      <h7>Address</h7>
-                    </div>
-                    <div className="col s3 push-s3">
-                      <h7>
-                        <b>{this.state.worker["user"]["address"]}</b>
-                      </h7>
-                    </div>
-                  </div>
-
-                  <div className="card-content">
-                  <div className="col s3">
-                  
-                  <h7>Service</h7>
-                
-                    </div>
-
-                
-                  <div className="col s3 push-s3">
-                  <h7>        
-                  <b>{this.state.worker["service"]["service"]}</b>                  
-                  </h7>
-                  </div>
-                </div>
-
-                <div className="card-content">
-              </div>
-              <div className="card-content"></div>
-              </div>
-                  <div className='link-redirect-wp'>
-                    <Link to="/Booking">
-                      <h6>Go back to bookings page</h6>
-                    </Link>
-                  </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
-        );
+        )
+      }
+      return (
+        <div>
+          <Navbar />
+          <div className="row">
+            <div className="account-card">
+              <div className="col s6 push-s3">
+                <div className="card" data-test="card">
+                  <div className="card-action blue darken-4 white-text center-align">
+                    <h4>
+                      <b>Worker confirmation</b>
+                    </h4>
+                  </div>
+                  <div class="row">
+                    <div className="card-content" data-test="workers">
+                      <h6>
+                        <b> Pending worker accounts</b>
+                      </h6>
+                      <div className="form-field">
+                        {/* if workers exist, loop through each worker in the drop down menu for the form
+                    if they dont exit, load message saying workers dont exist*/}
+                    { (this.state.workers === null) ? (
+                      <h6> No workers available</h6>
+                    ) :
+                    <select  className = "browser-default" name = "index"
+                    value = {this.state.index} onChange={this.handleChange}  required>
+  
+                          <option value = "" disabled selected>Choose your option</option>
+                          {
+                            
+                            this.state.workers.map((worker, index) => (
+                              <option key={worker['id']} value={index}> {worker['user']['firstName']} {worker['user']['lastName']}</option>
+                            ))
+                          }
+                        
+                      </select>
+                        }
+                      </div>
+  
+                      <div className="card-content">
+                      <div className="col s3">                     
+                        <h6>
+                          <b>Profile</b>
+                        </h6>
+                      </div>
+                    </div>
+                    <div className="card-content">
+                      <div className="col s3">
+                        <h7>Email</h7>
+                      </div>
+                      <div className="col s3 push-s3">
+                        <h7>
+                          <b>{this.state.worker["user"]["username"]}</b>
+                        </h7>
+                      </div>
+                    </div>
+                    <div className="card-content">
+                      <div className="col s3">
+                        <h7>Full Name</h7>
+                      </div>
+                      <div className="col s3 push-s3">
+                        <h7>
+                          <b>
+                            {this.state.worker["user"]["firstName"]}{" "}
+                            {this.state.worker["user"]["lastName"]}
+                          </b>
+                        </h7>
+  
+                      </div>
+                    </div>
+                    <div className="card-content">
+                      <div className="col s3">
+                        <h7>Address</h7>
+                      </div>
+                      <div className="col s3 push-s3">
+                        <h7>
+                          <b>{this.state.worker["user"]["address"]}</b>
+                        </h7>
+                      </div>
+                    </div>
+  
+                    <div className="card-content">
+                    <div className="col s3">
+                    
+                    <h7>Service</h7>
+                  
+                      </div>
+  
+                  
+                    <div className="col s3 push-s3">
+                    <h7>
+  
+           
+                    <b>{this.state.worker["service"]["service"]}</b>
+                  
+                      
+                    </h7>
+                    </div>
+                    </div>
+                    <div className="card-content"></div>
+                    </div>
+                      <div className='link-redirect-wp'>
+                        <Link to="/Booking">
+                          <h6>Go back to bookings page</h6>
+                        </Link>
+                      </div>
+                    </div>                   
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>       
+      );
     }
-}
-}
+  }

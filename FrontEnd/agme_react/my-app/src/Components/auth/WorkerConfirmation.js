@@ -63,8 +63,7 @@ this.props.approveWorker(this.state.worker['id'], this.props.history);
                 <div className="progress">
                 <div className="indeterminate"></div>
             </div>
-            </div>
-        
+            </div>       
               );
     }
 
@@ -119,11 +118,7 @@ this.props.approveWorker(this.state.worker['id'], this.props.history);
                       <h6>No workers left to approve</h6>:
                       <h6>Please Select a Worker to approve</h6>
 
-
-                                         }                     
-
-
-           
+                                         }                                
                     </div>
                   </div>
                 </div>
@@ -156,7 +151,6 @@ this.props.approveWorker(this.state.worker['id'], this.props.history);
                   if they dont exit, load message saying workers dont exist*/}
                   { (this.state.workers === null) ? (
                     <h6> No workers available</h6>
-
                   ) :
                   <select  className = "browser-default" name = "index"
                   value = {this.state.index} onChange={this.handleChange}  required>
