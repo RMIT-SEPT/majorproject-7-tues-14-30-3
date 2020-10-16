@@ -72,127 +72,113 @@ export default class LoggedInDashboard extends Component {
 
     //if logged in user is worker, display this, else display customer version
     if (localStorage.getItem("workerObject") != null) {
-
-      
       const worker = JSON.parse(localStorage.getItem("workerObject"));
 
-      console.log(worker)
+      console.log(worker);
 
-      if(worker['accepted'] === true){
-
-
-      var amount = 0;
-      if(localStorage.getItem("workerNotifs") != null){
+      if (worker["accepted"] === true) {
+        var amount = 0;
+        if (localStorage.getItem("workerNotifs") != null) {
           const notifs = JSON.parse(localStorage.getItem("workerNotifs"));
           amount = notifs.length;
-          console.log(amount)
-      }
+          console.log(amount);
+        }
 
-
-      return (
-        <div className="loggedInComponent">
-          <div class="container">
-            <div class="row">
-              <div className="col l8 s12">
-                <h5>
-                  <b>Check your Bookings</b>
-                </h5>
-                
-
-                <Link to="/CurrentBooking">
-                  <button
-                    className="btn btn-bookings blue darken-4"
-                    data-test="sign-up-button"
-                    type="submit"
-                  >
-                    Upcoming appointments
-                  </button>
-                </Link>
-
-                <h6>
-                  <b></b>
-                </h6>
-
-                <Link to="/PastBooking">
-                  <button
-                    className="btn btn-bookings blue darken-4"
-                    data-test="sign-up-button"
-                    type="submit"
-                  >
-                    Past Bookings
-                  </button>
-                </Link>
-
-                <h6>
-
-                  <b></b>
-                </h6>
-                <Link to="/WorkerAvailabilities">
-                <button
-                  className="btn btn-bookings blue darken-4"
-              
-                  type="submit"
-                >
-                My Availabilities
-                </button>
-              </Link>
-
-
-              <h6>
-              <b></b>
-            </h6>
-
-
-                <Link to="/ViewCalendar">
-                  <button
-                    className="btn btn-bookings blue darken-4"
-                    data-test="sign-up-button"
-                    type="submit"
-                  >
-                    My calendar
-                  </button>
-                </Link>
-
-
-              </div>
-              <div className="col l4 s12">
-              <h5>
-                <b>Notifications</b>
-              </h5>
-
-              <Link to="/Notifications">
-                <button
-                  className="btn blue btn-approve darken-4"
-                  type="submit"
-                >
-                  Check notifications
-                </button>
-              </Link>
-              <h6><b>You have ({amount}) new notification(s)</b></h6>
-              </div>
-            </div>
-          </div>
-        </div>
-      );
-
-      }
-
-      else {
         return (
           <div className="loggedInComponent">
             <div class="container">
               <div class="row">
                 <div className="col l8 s12">
-                <br></br>
-                <br></br>
-                <br></br>
-                <br></br>
-                <br></br>
-                <br></br>
+                  <h5>
+                    <b>Check your Bookings</b>
+                  </h5>
+
+                  <Link to="/CurrentBooking">
+                    <button
+                      className="btn btn-bookings blue darken-4"
+                      data-test="sign-up-button"
+                      type="submit"
+                    >
+                      Upcoming appointments
+                    </button>
+                  </Link>
+
+                  <h6>
+                    <b></b>
+                  </h6>
+
+                  <Link to="/PastBooking">
+                    <button
+                      className="btn btn-bookings blue darken-4"
+                      data-test="sign-up-button"
+                      type="submit"
+                    >
+                      Past Bookings
+                    </button>
+                  </Link>
+
+                  <h6>
+                    <b></b>
+                  </h6>
+                  <Link to="/WorkerAvailabilities">
+                    <button
+                      className="btn btn-bookings blue darken-4"
+                      type="submit"
+                    >
+                      My Availabilities
+                    </button>
+                  </Link>
+
+                  <h6>
+                    <b></b>
+                  </h6>
+
+                  <Link to="/ViewCalendar">
+                    <button
+                      className="btn btn-bookings blue darken-4"
+                      data-test="sign-up-button"
+                      type="submit"
+                    >
+                      My calendar
+                    </button>
+                  </Link>
+                </div>
+                <div className="col l4 s12">
+                  <h5>
+                    <b>Notifications</b>
+                  </h5>
+
+                  <Link to="/Notifications">
+                    <button
+                      className="btn blue btn-approve darken-4"
+                      type="submit"
+                    >
+                      Check notifications
+                    </button>
+                  </Link>
+                  <h6>
+                    <b>You have ({amount}) new notification(s)</b>
+                  </h6>
+                </div>
+              </div>
+            </div>
+          </div>
+        );
+      } else {
+        return (
+          <div className="loggedInComponent">
+            <div class="container">
+              <div class="row">
+                <div className="col l8 s12">
+                  <br></br>
+                  <br></br>
+                  <br></br>
+                  <br></br>
+                  <br></br>
+                  <br></br>
                   <h5>
                     <b>Please Await Admin Approval</b>
                   </h5>
-  
                 </div>
               </div>
             </div>
@@ -260,16 +246,15 @@ export default class LoggedInDashboard extends Component {
                 <b></b>
               </h6>
 
-                <Link to="/ViewCalendar">
-                  <button
-                    className="btn btn-bookings blue darken-4"
-                    data-test="sign-up-button"
-                    type="submit"
-                  >
-                    My calendar
-                  </button>
-                </Link>
-                
+              <Link to="/ViewCalendar">
+                <button
+                  className="btn btn-bookings blue darken-4"
+                  data-test="sign-up-button"
+                  type="submit"
+                >
+                  My calendar
+                </button>
+              </Link>
             </div>
           </div>
         </div>
