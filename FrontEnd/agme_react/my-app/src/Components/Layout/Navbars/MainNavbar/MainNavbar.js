@@ -36,7 +36,9 @@ export default class Navbar extends Component {
               </a>
               <ul className="right hide-on-med-and-down">
                 <li>
-                  <a href="#home">Home</a>
+                  <Link id="RouterNavLink" to="/Dashboard">
+                    Home
+                  </Link>
                 </li>
                 <li>
                   <a href="#contact">Contact Us</a>

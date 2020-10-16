@@ -12,6 +12,8 @@ const setUp = (props={}) => {
     const res = ["Appointment","Consult"];
     component.setState({loaded:true});
     component.setState({services: res, sLoaded: true});
+    component.setState({timesLoader: true});
+    props.setState({times: times})
     return component;
 };
 

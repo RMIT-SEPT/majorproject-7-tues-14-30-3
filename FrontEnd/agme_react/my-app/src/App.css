@@ -95,8 +95,16 @@
   margin-top: 10px;
 }
 
+.calender {
+  position:absolute
+}
+
 .checkbox-left {
   vertical-align: bottom;
+}
+
+.nav-wrapper {
+  position:absolute
 }
 
 .checkbox-middle {
