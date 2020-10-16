@@ -16,10 +16,16 @@ export default class Notifications extends Component {
     if (localStorage.getItem("workerNotifs") !== null) {
       notifs = JSON.parse(localStorage.getItem("workerNotifs"));
 
-    } 
+    } else  if (localStorage.getItem("custNotifs") !== null) {
+      notifs = JSON.parse(localStorage.getItem("custNotifs"));
+
+    }
 
     if (localStorage.getItem("workerObject") !== null) {
       user = JSON.parse(localStorage.getItem("workerObject"));
+
+    } else  if (localStorage.getItem("customerObject") !== null) {
+      user = JSON.parse(localStorage.getItem("customerObject"));
 
     } 
 
@@ -62,7 +68,7 @@ export default class Notifications extends Component {
                       <b>Notifications</b>
                     </h5>
                     <h6>
-                    <b>Worker Name:</b>{" "}   {this.state.profile["user"]["firstName"]}{" "} {this.state.profile["user"]["lastName"]}
+                    <b>Name:</b>{" "}   {this.state.profile["user"]["firstName"]}{" "} {this.state.profile["user"]["lastName"]}
                     
                   </h6>
                       <br></br>

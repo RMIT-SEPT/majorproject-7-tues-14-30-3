@@ -89,6 +89,7 @@ export default class LoggedInDashboard extends Component {
       }
 
 
+
       return (
         <div className="loggedInComponent">
           <div class="container">
@@ -201,11 +202,17 @@ export default class LoggedInDashboard extends Component {
       }
     }
 
+    var amountCust = 0;
+    if(localStorage.getItem("custNotifs") != null){
+        const notifs = JSON.parse(localStorage.getItem("custNotifs"));
+        amountCust = notifs.length;
+    }
+
     return (
       <div className="loggedInComponent" data-test="logged-in-dashboard">
         <div className="container">
           <div className="row">
-            <div className="col l7 s12">
+            <div className="col  s6 push-s1">
               <div className="logged-in-dashboard-text">
                 <h3>
                   <b>Looking to Book?</b>
@@ -224,7 +231,23 @@ export default class LoggedInDashboard extends Component {
                 </button>
               </Link>
             </div>
-            <div className="col l4 s12">
+
+            <div className="col  s6 push-s1">
+            <h5>
+              <b>Notifications</b>
+            </h5>
+
+            <Link to="/Notifications">
+              <button
+                className="btn blue darken-4"
+                type="submit"
+              >
+                Check notifications
+              </button>
+            </Link>
+            <h6><b>You have ({amountCust}) new notification(s)</b></h6>
+            </div>
+            <div className="col s6 push-s2">
               <h5>
                 <b>OR</b>
               </h5>
