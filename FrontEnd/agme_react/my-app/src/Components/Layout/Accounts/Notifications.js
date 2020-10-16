@@ -43,6 +43,7 @@ export default class Notifications extends Component {
   render() {
     var notifArray = this.state.notifications;
     localStorage.removeItem("workerNotifs");
+    localStorage.removeItem("custNotifs");
 
 
 
