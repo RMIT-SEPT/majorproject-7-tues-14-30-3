@@ -104,6 +104,19 @@
   margin-left: 50px;
 }
 
+.cust-notifs {
+  height: 50px;
+  width: 50%;
+  margin-top: -100px;
+  
+  position: absolute;
+}
+
+.book-dashboard {
+  margin-top: 40px;
+  right: 200px;
+}
+
 nav ul .waves-effect i {
   display: inline;
   margin-left: 8px;
