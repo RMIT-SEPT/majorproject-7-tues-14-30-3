@@ -19,9 +19,7 @@ export class CustomerSignUp extends Component {
       confirmPassword:"",
       services:null,
       loaded:false
-      //,
-    
-     // errors:{}  
+
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -55,21 +53,8 @@ export class CustomerSignUp extends Component {
 
   }
 
- // componentWillReceiveProps(nextProps){
-
- //   if(nextProps.errors){
-  //    this.setState ({
-
-   //     errors:nextProps.errors
- //     });
- //   }
-
-
-//  }
 
   async componentDidMount() {
-
-
 
     try{
     const res = await axios.get("http://localhost:8080/api/service/all");
@@ -88,7 +73,7 @@ export class CustomerSignUp extends Component {
 
 
   render() {
-  //used to render only after workers have been grabbed
+  //used to render only after information has been loaded from backend
   if (!this.state.loaded) {
     return (
       <div className = "center-align">

@@ -5,7 +5,7 @@ import setJWTToken from "../securityUtils/setJWTToken";
 export const updateAccount = (newAccount,  type, accountPage,history) => async dispatch => {
   
 
- 
+ //used to update account details for any user
   try {
       setJWTToken(localStorage.getItem('jwtToken'))
       if(type === "Customer"){

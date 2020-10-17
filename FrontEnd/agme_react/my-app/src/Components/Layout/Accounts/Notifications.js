@@ -1,6 +1,4 @@
 import React, { Component } from "react";
-import PropTypes from "prop-types";
-import { connect } from "react-redux";
 import Navbar from "../Navbars/MainNavbar/MainNavbar";
 
 export default class Notifications extends Component {
@@ -11,7 +9,7 @@ export default class Notifications extends Component {
 
 
     //checks what kind of user is logged in and saves the user into the user variable
-    //while also setting accountType appropriately
+    //while also setting notification type
 
     if (localStorage.getItem("workerNotifs") !== null) {
       notifs = JSON.parse(localStorage.getItem("workerNotifs"));
@@ -40,6 +38,7 @@ export default class Notifications extends Component {
 
   }
 
+  //renders page with notifications and immediately clears notifications
   render() {
     var notifArray = this.state.notifications;
     localStorage.removeItem("workerNotifs");

@@ -7,7 +7,7 @@ export const cancelBooking = (id, statevar, history) => async dispatch => {
  
   try {
 
-        console.log(id)
+      //used to set booking to cancelled state
         const  res1 = await axios.patch("http://localhost:8080/api/bookings/cancel",null, { 
           params: { bookingId : id}
 

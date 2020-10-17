@@ -75,21 +75,21 @@ class WorkerAvailabilities extends Component {
 
   handleTime(){
 
-   // this.state.timeStore.push(this.props.clicked);
-
-
-   if (this.props.clicked!== null){
-    var clickCheck = this.props.clicked['click'];
-    var booking = this.props.clicked['bookingTime'];
-  if(this.state.timeStore.length === 0){
-    if (clickCheck){
+    //used to handle creating an array of times to set availabilities when
+    //buttons are clicked
+    if (this.props.clicked!== null){
+      var clickCheck = this.props.clicked['click'];
+      var booking = this.props.clicked['bookingTime'];
+    if(this.state.timeStore.length === 0){
+      if (clickCheck){
       this.state.timeStore.push(booking);
-    }
-  } else {
-    if (clickCheck){
+      }
+    } else {
       var checked = true;
 
-      this.state.timeStore.forEach((timer) => {
+      if (clickCheck){
+       
+        this.state.timeStore.forEach((timer) => {
         if (timer === booking) {
           checked = false;
         } 
@@ -100,12 +100,12 @@ class WorkerAvailabilities extends Component {
       }
 
 
-    } else {
-      var checked = true;
-      var count = 0;
+      } else {
+        
+        var count = 0;
       
 
-      this.state.timeStore.forEach((timer, index) => {
+        this.state.timeStore.forEach((timer, index) => {
         if (timer === booking) {
           checked = false;
           count = index;
@@ -122,11 +122,14 @@ class WorkerAvailabilities extends Component {
 
   }
 
-}
-
   }
 
+}
+
   handleDayChange(e) {
+
+    //used to set day when choosing a working day, also used to populate two
+    //arrays for workers if they're checking availabilities
     this.setState({ day: e.target.value });
 
     
@@ -167,21 +170,18 @@ class WorkerAvailabilities extends Component {
   }
 
   handleSubmit(e) {
+
+    //submit for admin creating availabilities
     e.preventDefault();
     this.handleTime();
-   // console.log(this.state.day)
-  //  console.log(this.state.timeStore)
+
  
     this.props.setAvailabilities(this.state.worker['id'], this.state.day, this.state.timeStore, this.props.history);
 
   }
 
   async componentDidMount() {
-    //used to load information on all workers in database in order to give options to the customer
-    //when choosing which worker they want to book
-
-    //set loaded state to true if all workers have bee loaded or if no workers have been found
-    //in order to render page
+    //used to grab information from backend and populate information
 
     setJWTToken(localStorage.getItem("jwtToken"));
     try {
@@ -237,7 +237,7 @@ class WorkerAvailabilities extends Component {
         </div>
       );
     }
-
+//render page for worker
     if (localStorage.getItem("workerObject") != null) {
       return (
         <div>
@@ -334,6 +334,7 @@ class WorkerAvailabilities extends Component {
 
     }
 
+    //render page for admin when worker is not chosen
     if (this.state.worker === null) {
       return (
         <div>
@@ -402,6 +403,8 @@ class WorkerAvailabilities extends Component {
         </div>
       );
     }
+
+    //render page after worker chosen for admin
     return (
       <div>
         <Navbar />

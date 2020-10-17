@@ -16,6 +16,7 @@ export const createAccount = (newAccount, services, type, history) => async disp
   
       setJWTToken(token);
 
+
       if(type ==="CUSTOMER"){
       const res3 = await axios.post("http://localhost:8080/api/customer");
       } else if (type ==="WORKER"){
@@ -26,14 +27,6 @@ export const createAccount = (newAccount, services, type, history) => async disp
       })
     }
       
-
-
-    //  if(type === "Customer"){
-   //     const  res1 = await axios.post("http://localhost:8080/api/customer", newAccount);
-    //  } else if (type === "Worker"){
-    //    const  res2 = await axios.post("http://localhost:8080/api/worker", newAccount, { params: { service :
-    //    service}});
-   //   }
     setJWTToken();
     history.push("/Dashboard");
 
@@ -47,18 +40,16 @@ export const createAccount = (newAccount, services, type, history) => async disp
 }
 
 export const login = (LoginRequest, history) => async dispatch =>{
-
+  //sets login error messages to null
   dispatch({ type: ERR_MESSAGE, payload: null });
+
+  //tries to login for all account types, finds and stores object for login
+  //and sets token for authorization
   try{
     console.log(LoginRequest)
     const res = await axios.post("http://localhost:8080/api/users/login",  LoginRequest);
 
-
-    console.log(res)
-
     const { token } = res.data;
-
-    console.log(token)
 
     localStorage.setItem("jwtToken", token);
     setJWTToken(token);
@@ -73,6 +64,7 @@ export const login = (LoginRequest, history) => async dispatch =>{
      console.log(data2)
       localStorage.setItem('customerObject', JSON.stringify(data2));
 
+      //check if customer has notifications
       try{
         const resnotifs = await axios.get("http://localhost:8080/api/notifications")
           const dataNotifs2 = resnotifs.data;
@@ -107,7 +99,7 @@ export const login = (LoginRequest, history) => async dispatch =>{
  
     localStorage.setItem('workerObject', JSON.stringify(data3));
 
-
+      //check if worker has notifications
       try{
       const resnotifs = await axios.get("http://localhost:8080/api/notifications")
         const dataNotifs = resnotifs.data;
@@ -169,6 +161,7 @@ export const login = (LoginRequest, history) => async dispatch =>{
 
     });
 
+    //error response for invalid login
     if(err.response.status === 401){
 
     dispatch({ type: ERR_MESSAGE, payload: "Email or Password" });

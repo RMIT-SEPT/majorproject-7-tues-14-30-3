@@ -139,6 +139,9 @@ import setJWTToken from "../../securityUtils/setJWTToken";
       //upcoming bookings with relevant worker id and then sets loaded
       //state to true, which then renders the full page. 
 
+      //if account type is admin, then provides dropdown of workers and andmin
+      //can choose to see bookings for that worker
+
       //if a booking object is not returned, book state stays null and loaded is set to true and page renders
 
       if(this.state.account === "Customer") {
@@ -162,8 +165,7 @@ import setJWTToken from "../../securityUtils/setJWTToken";
 
           }
     }
-   // console.log(this.state.workers)
-   // console.log(this.state.adminBookArray)
+
   }
   
   render() { 

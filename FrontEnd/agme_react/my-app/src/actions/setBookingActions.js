@@ -1,5 +1,5 @@
-import axios from "axios";
-import { GET_ERRORS, CLICKED } from "./types";
+
+import { CLICKED } from "./types";
 
 export const setBooking = (details) => async dispatch => {
 

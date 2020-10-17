@@ -31,8 +31,7 @@ this.props.approveWorker(this.state.worker['id'], this.props.history);
 
 }
   async componentDidMount() {
-    //used to load information on all workers in database in order to give options to the customer
-    //when choosing which worker they want to book
+    //used to load information on all workers in database
 
     //set loaded state to true if all workers have bee loaded or if no workers have been found
     //in order to render page
@@ -140,14 +139,12 @@ this.props.approveWorker(this.state.worker['id'], this.props.history);
                 <div className="card" data-test="card">
                   <div className="card-action blue darken-4 white-text center-align">
                     <h4>
-                      <b>Worker confirmation</b>
+                      <b>Worker Profiles</b>
                     </h4>
                   </div>
                   <div class="row">
                     <div className="card-content" data-test="workers">
-                      <h6>
-                        <b> Pending worker accounts</b>
-                      </h6>
+
                       <div className="form-field">
                         {/* if workers exist, loop through each worker in the drop down menu for the form
                     if they dont exit, load message saying workers dont exist*/}

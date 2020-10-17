@@ -41,7 +41,7 @@ export class Booking extends Component {
       services: null,
       sLoaded: false,
       loaded: false,
-      times:null,
+      //times:null,
       timesLoader:true,
       durations:arrayObj3
     };
@@ -53,10 +53,12 @@ export class Booking extends Component {
     this.findTimes = this.findTimes.bind(this);
   }
 
+  //used to set times for the booking 
   setTimes(){
     this.setState({times:this.props.times, timesLoader:true});
   }
 
+  //used to look at the worker availabilities and provide possible booking durations
   findTimes(time){
     var defaultValue = ["30 Minutes", "30"]
     var hourValue1 = ["1 Hour", "60"];
@@ -77,7 +79,7 @@ export class Booking extends Component {
       firstMin = "00";
     }
 
-    if (thirtyMin == 60){
+    if (thirtyMin === 60){
       secondMin = "00"
     }
 
@@ -129,11 +131,11 @@ export class Booking extends Component {
 
   }
 
+  //used to set endtime which is sent to the booking creation based on duration
+  //choice
   duration(time){
     var hour = parseInt(this.state.startTime.substring(0,2), 10);
     var mins = parseInt(this.state.startTime.substring(3,5), 10);
-    var newHour =time;
-    var hourValue = "";
     var minValueInt = mins+30;
     var minValue = minValueInt.toString();
     var finalValue = "";
@@ -172,8 +174,10 @@ export class Booking extends Component {
       this.state.filteredWorkers.length = 0;
 
       if (this.state.workers !== null) {
+        console.log(this.state.workers)
         this.state.workers.forEach((worker) => {
           if (worker["service"]["service"] === serviceName) {
+            console.log(worker)
             var hasWorker = false;
             this.state.filteredWorkers.forEach((filter) => {
               if (filter["id"] === worker["id"]) {
@@ -196,7 +200,6 @@ export class Booking extends Component {
 
         this.props.getTimes(this.state.workers[this.state.worker]['id'],
                                e.target.value, this.props.history);
-      //  this.setState({timesLoader:false});
       } else {
 
         this.setState({startDate:""});
@@ -254,13 +257,11 @@ export class Booking extends Component {
 
 
     try {
-      console.log("hi");
       setJWTToken(localStorage.getItem("jwtToken"));
       const res = await axios.get("http://localhost:8080/api/worker/all");
       this.setState({ workers: res.data, loaded: true });
 
 
-      console.log(res.data);
     } catch (err) {
       if (err.response.status === 404) {
         this.setState({ loaded: true });
@@ -343,7 +344,7 @@ export class Booking extends Component {
                           <option value="" disabled selected>
                             Choose your option
                           </option>
-                          {this.state.workers.map((worker, index) => (
+                          {this.state.filteredWorkers.map((worker, index) => (
                             <option key={worker["id"]} value={index}>
                               {" "}
                               {worker["user"]["firstName"]}{" "}
@@ -463,22 +464,7 @@ export class Booking extends Component {
                       
                       
                        [ 
-                       /* <button disabled={this.state.thirty} className="btn btn-time blue darken-4" 
-                                    onClick={this.duration.bind(1)}>
-                        30 Minutes
-                        </button> ,
-                        <button disabled={this.state.sixty} className="btn btn-time blue darken-4" 
-                        onClick={this.duration.bind(2)}>
-                        1 Hour
-                        </button> ,
-                        <button disabled={this.state.ninety} className="btn btn-time blue darken-4" 
-                        onClick={this.duration.bind(3)}>
-                        1H 30 Minutes
-                        </button> ,
-                        <button disabled={this.state.oneTwenty} className="btn btn-time blue darken-4" 
-                        onClick={this.duration.bind(4)}>
-                        2 Hours
-                        </button> */
+
                         
                         <select
                         className="browser-default"

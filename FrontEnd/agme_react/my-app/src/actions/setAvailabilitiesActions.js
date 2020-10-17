@@ -7,7 +7,7 @@ export const setAvailabilities = (setWorkerId,  setDay, times, history) => async
 
  
   try {
-      //if account type is of Customer, a customer account is created, else a worker account is created
+      //used to set availabilities for a worker via admin
       setJWTToken(localStorage.getItem('jwtToken'))
         const  res1 = await axios.post("http://localhost:8080/api/worker/availability", times, { params: { workerId :
         setWorkerId, day : setDay}});

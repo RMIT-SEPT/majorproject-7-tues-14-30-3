@@ -3,6 +3,8 @@ import { Link } from "react-router-dom";
 
 export default class LoggedInDashboard extends Component {
   render() {
+
+    //this is logged in Dashboard for admin
     if (localStorage.getItem("adminObject") != null) {
       return (
         <div className="loggedInComponent">

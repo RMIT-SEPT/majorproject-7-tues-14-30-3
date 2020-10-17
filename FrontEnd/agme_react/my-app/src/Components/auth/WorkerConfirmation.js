@@ -31,8 +31,7 @@ class WorkerConfirmation extends Component {
   }
 
   async componentDidMount() {
-    //used to load information on all workers in database in order to give options to the customer
-    //when choosing which worker they want to book
+    //used to load information on all workers in database who need to be approved
 
     //set loaded state to true if all workers have bee loaded or if no workers have been found
     //in order to render page

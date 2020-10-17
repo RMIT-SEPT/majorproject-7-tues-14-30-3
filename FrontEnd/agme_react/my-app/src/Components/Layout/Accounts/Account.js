@@ -27,7 +27,6 @@ export class Account extends Component {
       accountType = "Admin";
     }
 
-    //console.log(user);
     //set state with current user
 
    if (user != null) {
@@ -71,7 +70,6 @@ export class Account extends Component {
       account = JSON.parse(localStorage.getItem("customerObject"));
     } else if (localStorage.getItem("workerObject") !== null) {
       account = JSON.parse(localStorage.getItem("workerObject"));
-    //  account["service"]["service"] = this.state.service;
     } else if (localStorage.getItem("adminObject") !== null) {
       account = JSON.parse(localStorage.getItem("adminObject"));
     }
@@ -81,10 +79,9 @@ export class Account extends Component {
     account["user"]["lastName"] = this.state.lastName;
     account["user"]["address"] = this.state.address;
 
-    console.log(account);
+
 
     this.props.updateAccount(account, this.state.type, true,this.props.history);
-    console.log(account);
 
     this.setState({ editStatus: false });
   }
@@ -117,6 +114,7 @@ export class Account extends Component {
       );
     }
 
+    //render page used to edit
     if (this.state.editStatus) {
       return (
         <div>
@@ -198,31 +196,7 @@ export class Account extends Component {
                           ></input>
                         </div>
                       </div>
-{/*
-                      <div className="card-content">
-                        {this.state.type !== "Worker" ? null : (
-                          <h7>Edit Service</h7>
-                        )}
-                        {this.state.type !== "Worker" ? null : (
-                          <select
-                            className="browser-default"
-                            onChange={this.handleChange}
-                            value={this.state.service}
-                            name="service"
-                          >
-                            <option value="" disabled selected>
-                              Choose your option
-                            </option>
-                            {this.state.services.map((service, index) => (
-                              <option key={index} value={service["service"]}>
-                                {" "}
-                                {service["service"]}{" "}
-                              </option>
-                            ))}
-                          </select>
-                        )}
-                      </div>
-                            */}
+
                       <div className="card-content" data-test="save-profile-button">
                         <button
                           className="btn btn-profile blue darken-4"
@@ -241,6 +215,7 @@ export class Account extends Component {
       );
     }
 
+    //render page used to display information
     return (
       <div>
         <Navbar />

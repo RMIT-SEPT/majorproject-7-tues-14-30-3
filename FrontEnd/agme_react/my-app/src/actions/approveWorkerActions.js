@@ -6,7 +6,7 @@ export const approveWorker = (workId, history) => async dispatch => {
   
   setJWTToken(localStorage.getItem('jwtToken'))
   try {
-      //if account type is of Customer, a customer account is created, else a worker account is created
+      //used to send authenticate api in order to authenticate a worker
 
         const  res1 = await axios.patch("http://localhost:8080/api/worker/authenticate", null,{ params: { workerId :
         workId}

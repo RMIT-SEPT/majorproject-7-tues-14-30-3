@@ -25,10 +25,9 @@ import PropTypes from "prop-types";
 
     const details = {bookingTime: this.props.timeValue, click:this.state.clicked}
 
-    //console.log(this.state.timeArray)
+      //adds time to an object when button is clicked and passed to availabilities
     this.props.setBooking(details);
-    //console.log(this.props.timeValue)
-    //console.log(this.state.clicked.toString())
+
   }
 
   render() {

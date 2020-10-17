@@ -8,10 +8,12 @@ export const getTimes = (workerID, dateData, history) => async dispatch => {
   try {
     dispatch({ type: TIMES, payload: null });
 
-    //if account type is of Customer, a customer account is created, else a worker account is created
+   
     setJWTToken(localStorage.getItem('jwtToken'))
    
-      const  res1 = await axios.get("http://localhost:8080/api/worker/availability",  { params: { workerId :
+    //used to retrieve availabilites for a worker on a certain date
+
+    const  res1 = await axios.get("http://localhost:8080/api/worker/availability",  { params: { workerId :
       workerID, date: dateData}});
 
       

@@ -1,7 +1,5 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
-import { connect } from "react-redux";
-import { Inject,ScheduleComponent,Day,Week,WorkWeek,Month,Agenda, ResourceDirective, ResourcesDirective } 
+import { Inject,ScheduleComponent,Day,Week,WorkWeek,Month,Agenda} 
          from '@syncfusion/ej2-react-schedule';
 import axios from "axios";
 import setJWTToken from "../../securityUtils/setJWTToken";
@@ -42,6 +40,7 @@ export default class ViewCalendar extends Component {  constructor(props) {
 
 }
 
+//grabs information required for storing in calendar
 async componentDidMount() {
   setJWTToken(localStorage.getItem('jwtToken'))
   try{
@@ -59,7 +58,7 @@ async componentDidMount() {
 
       data1 = res.data;
     }
-    // var data2 = res2.data;
+
 
      if(data1.length !==0){
        var startTime;
@@ -130,7 +129,7 @@ async componentDidMount() {
   
   
         };
-        if(data['cancelled']==true){
+        if(data['cancelled']===true){
           bookObject.Subject = "Cancelled";
         }
 
@@ -157,7 +156,7 @@ async componentDidMount() {
   }
 }
 
-     
+     //renders calendar with appropriate information
   render() { 
 
     if (!this.state.loaded1 || !this.state.loaded2) {
@@ -177,13 +176,6 @@ async componentDidMount() {
 
   
   }> 
-  {/*<ResourcesDirective>
-  <ResourceDirective  option='Month'>
-  
-  </ResourceDirective>
-
-  </ResourcesDirective>
-  */}
       
             <Inject services={[Day,Week,WorkWeek,Month,Agenda]}/>
     </ScheduleComponent>);
