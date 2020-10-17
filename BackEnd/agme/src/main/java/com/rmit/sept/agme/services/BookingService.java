@@ -1,5 +1,6 @@
 package com.rmit.sept.agme.services;
 
+import com.rmit.sept.agme.TimeZoneUtil;
 import com.rmit.sept.agme.model.Booking;
 import com.rmit.sept.agme.model.Notification;
 import com.rmit.sept.agme.model.NotificationType;
@@ -31,7 +32,7 @@ public class BookingService {
         //Add notifications
         Notification bookingNotification = new Notification(booking.getWorker().getUser(),
                 NotificationType.POSITIVE, "New Booking!",
-                "You have a new booking at " + booking.getStartTime().toString() + ". Check your Upcoming Bookings for more details.");
+                "You have a new booking at " + TimeZoneUtil.removeTimeZone(booking.getStartTime()).toString() + ". Check your Upcoming Bookings for more details.");
         notificationService.createNotification(bookingNotification); //Add worker notification
         bookingNotification.setUser(booking.getCustomer().getUser());
         notificationService.createNotification(bookingNotification); //Add customer notification
@@ -57,7 +58,7 @@ public class BookingService {
         //Add notification for worker
         Notification bookingNotification = new Notification(bookingObject.getWorker().getUser(),
                 NotificationType.NEGATIVE, "Booking Cancelled",
-                "Your booking at " + bookingObject.getStartTime().toString() + " has been cancelled by the customer.");
+                "Your booking at " + TimeZoneUtil.removeTimeZone(bookingObject.getStartTime()).toString() + " has been cancelled by the customer.");
         notificationService.createNotification(bookingNotification);
 
 
