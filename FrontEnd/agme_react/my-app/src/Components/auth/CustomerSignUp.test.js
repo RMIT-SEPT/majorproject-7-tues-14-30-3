@@ -3,6 +3,7 @@ import Enzyme, { shallow } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
 import { CustomerSignUp } from './CustomerSignUp';
 import { findByTestAtrr } from './../../../Utils';
+import { createCustomer } from '../../actions/custCreateActions';
 
 
 Enzyme.configure({ adapter: new Adapter()});
@@ -10,6 +11,7 @@ Enzyme.configure({ adapter: new Adapter()});
 // function to return shallow render
 const setUp = (props={}) => {
     const component = shallow(<CustomerSignUp {...props} />);
+    component.setState({loaded:true});
     return component;
 };
 
@@ -21,7 +23,7 @@ describe('CustomerSignUp', () => {
         component = setUp();
     })
 
-    it('should find card class', () => {3
+    it('should find card class', () => {
         const wrapper = findByTestAtrr(component, 'card');
         expect(wrapper.length).toBe(1);
     });

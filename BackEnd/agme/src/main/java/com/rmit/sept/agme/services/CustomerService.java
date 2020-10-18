@@ -1,9 +1,9 @@
 package com.rmit.sept.agme.services;
 
-import com.rmit.sept.agme.model.Account;
 import com.rmit.sept.agme.model.Customer;
-import com.rmit.sept.agme.repositories.AccountRepository;
+import com.rmit.sept.agme.model.User;
 import com.rmit.sept.agme.repositories.CustomerRepository;
+import com.rmit.sept.agme.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,7 +15,7 @@ public class CustomerService {
     CustomerRepository customerRepository;
 
     @Autowired
-    AccountRepository accountRepository;
+    UserRepository userRepository;
 
     //Private save used by update and create
     private Customer saveOrUpdate(Customer customer){
@@ -26,8 +26,8 @@ public class CustomerService {
         return customerRepository.findById(id);
     }
 
-    public Optional<Customer> getByAccount(Account account) {
-        Iterable<Customer> customers = customerRepository.getByAccount(account);
+    public Optional<Customer> getByUser(User user) {
+        Iterable<Customer> customers = customerRepository.getByUser(user);
 
         if(customers.iterator().hasNext())
             return Optional.of(customers.iterator().next()); //Customer found
@@ -36,10 +36,10 @@ public class CustomerService {
     }
 
     //Customer created from an account
-    public Optional<Customer> create(long accountID){
-        Optional<Account> userAccount = accountRepository.findById(accountID);
+    public Optional<Customer> create(long userId){
+        Optional<User> userAccount = userRepository.findById(userId);
         if(!userAccount.isPresent()){
-            return Optional.empty(); //create failed, no account with accountID found
+            return Optional.empty(); //create failed, no user with userId found
         }
 
         //New customer created

@@ -1,10 +1,10 @@
 package com.rmit.sept.agme;
 
 
-import com.rmit.sept.agme.model.Account;
 import com.rmit.sept.agme.model.Admin;
-import com.rmit.sept.agme.repositories.AccountRepository;
+import com.rmit.sept.agme.model.User;
 import com.rmit.sept.agme.repositories.AdminRepository;
+import com.rmit.sept.agme.repositories.UserRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -17,17 +17,18 @@ public class AdminTests {
     AdminRepository adminRepository;
 
     @Autowired
-    AccountRepository accountRepository;
+    UserRepository userRepository;
 
     @Test
     public void testCreatedDate(){
-        Account account = new Account();
+        User account = new User();
         account.setPassword("password");
         account.setAddress("7 Street somewhere");
         account.setLastName("Apple");
         account.setFirstName("Person");
-        account.setEmail("gmail@gmail.com");
-        accountRepository.save(account);
+        account.setUsername("AdminCreate@gmail.com");
+        account.setRole("DEFAULT_ROLE");
+        userRepository.save(account);
         Admin admin = new Admin(account);
         Admin newAdmin = adminRepository.save(admin);
         assertThat(newAdmin.getCreatedAt()).isNotNull();
@@ -35,27 +36,29 @@ public class AdminTests {
 
     @Test
     public void testModifiedDate(){
-        Account account = new Account();
+        User account = new User();
         account.setPassword("password");
         account.setAddress("adsadasdasdsa");
         account.setLastName("sdfsdfsdf");
         account.setFirstName("sgrgergerg");
-        account.setEmail("gmail212@gmail.com");
+        account.setUsername("adminMod1@gmail.com");
+        account.setRole("DEFAULT_ROLE");
 
-        Account account2 = new Account();
+        User account2 = new User();
 
         account2.setPassword("password2");
         account2.setAddress("testing street");
         account2.setLastName("replace");
         account2.setFirstName("bob");
-        account2.setEmail("email21@gmail.com");
+        account2.setUsername("adminMod2@gmail.com");
+        account2.setRole("DEFAULT_ROLE");
 
-        accountRepository.save(account);
-        accountRepository.save(account2);
+        userRepository.save(account);
+        userRepository.save(account2);
 
         Admin admin = new Admin(account);
         Admin newAdmin = adminRepository.save(admin);
-        newAdmin.setAccount(account2);
+        newAdmin.setUser(account2);
         Admin updatedAdmin = adminRepository.save(newAdmin);
 
         assertThat(updatedAdmin.getModifiedAt()).isNotNull();

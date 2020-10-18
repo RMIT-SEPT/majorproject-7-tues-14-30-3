@@ -1,9 +1,9 @@
 package com.rmit.sept.agme;
 
-import com.rmit.sept.agme.model.Account;
 import com.rmit.sept.agme.model.Customer;
-import com.rmit.sept.agme.repositories.AccountRepository;
+import com.rmit.sept.agme.model.User;
 import com.rmit.sept.agme.repositories.CustomerRepository;
+import com.rmit.sept.agme.repositories.UserRepository;
 import com.rmit.sept.agme.services.CustomerService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +15,7 @@ import static org.junit.jupiter.api.Assertions.*;
 public class CustomerServiceTests {
 
     @Autowired
-    AccountRepository accountRepository;
+    UserRepository userRepository;
 
     @Autowired
     CustomerRepository customerRepository;
@@ -25,79 +25,85 @@ public class CustomerServiceTests {
 
     @Test
     public void testValidCustomerCreate() {
-        Account cust = new Account();
+        User cust = new User();
         cust.setAddress("13 realplace drive, suburbs");
-        cust.setEmail("Juan@mail.com");
+        cust.setUsername("ValidCreate@mail.com");
         cust.setFirstName("Juan");
         cust.setLastName("Rosso");
         cust.setPassword("password");
-        Account newAccount = accountRepository.save(cust);
-        assertTrue(customerService.create(newAccount.getId()).isPresent());
+        cust.setRole("DEFAULT_ROLE");
+        User newUser = userRepository.save(cust);
+        assertTrue(customerService.create(newUser.getId()).isPresent());
     }
 
     @Test
     public void testInvalidCustomerCreate() {
-        Account cust = new Account();
+        User cust = new User();
         cust.setAddress("13 realplace drive, suburbs");
-        cust.setEmail("Juan@mail.com");
+        cust.setUsername("InvalidCreate@mail.com");
         cust.setFirstName("Juan");
         cust.setLastName("Rosso");
         cust.setPassword("password");
-        Account newAccount = accountRepository.save(cust);
+        cust.setRole("DEFAULT_ROLE");
+        User newUser = userRepository.save(cust);
         assertFalse(customerService.create(12345).isPresent());
     }
     @Test
     public void testValidCustomerGet() {
-        Account cust = new Account();
+        User cust = new User();
         cust.setAddress("13 realplace drive, suburbs");
-        cust.setEmail("Juan@mail.com");
+        cust.setUsername("ValidGet@mail.com");
         cust.setFirstName("Juan");
         cust.setLastName("Rosso");
         cust.setPassword("password");
-        Account newAccount = accountRepository.save(cust);
-        Customer customer = new Customer(newAccount);
+        cust.setRole("DEFAULT_ROLE");
+        User newUser = userRepository.save(cust);
+        Customer customer = new Customer(newUser);
         Customer newCustomer = customerRepository.save(customer);
         assertTrue(customerService.get(newCustomer.getId()).isPresent());
     }
 
     @Test
     public void testInvalidCustomerGet() {
-        Account cust = new Account();
+        User cust = new User();
         cust.setAddress("13 realplace drive, suburbs");
-        cust.setEmail("Juan@mail.com");
+        cust.setUsername("InvalidGet@mail.com");
         cust.setFirstName("Juan");
         cust.setLastName("Rosso");
         cust.setPassword("password");
-        Account newAccount = accountRepository.save(cust);
-        Customer customer = new Customer(newAccount);
+        cust.setRole("DEFAULT_ROLE");
+        User newUser = userRepository.save(cust);
+        Customer customer = new Customer(newUser);
         Customer newCustomer = customerRepository.save(customer);
         assertFalse(customerService.get(12345).isPresent());
     }
 
     @Test
     public void testValidCustomerUpdate() {
-        Account cust = new Account();
+        User cust = new User();
         cust.setAddress("13 realplace drive, suburbs");
-        cust.setEmail("Juan@mail.com");
+        cust.setUsername("ValidUpdate@mail.com");
         cust.setFirstName("Juan");
         cust.setLastName("Rosso");
         cust.setPassword("password");
-        Account newAccount = accountRepository.save(cust);
-        Customer customer = new Customer(newAccount);
+        cust.setRole("DEFAULT_ROLE");
+        User newUser = userRepository.save(cust);
+        Customer customer = new Customer(newUser);
         Customer newCustomer = customerRepository.save(customer);
-        assertEquals(customerService.update(newCustomer).get(),newCustomer);
+        assertTrue(customerService.update(newCustomer).isPresent());
     }
 
     @Test
     public void testInvalidCustomerUpdate() {
-        Account cust = new Account();
+        User cust = new User();
         cust.setAddress("13 realplace drive, suburbs");
-        cust.setEmail("Juan@mail.com");
+        cust.setUsername("InvalidUpdate@mail.com");
         cust.setFirstName("Juan");
         cust.setLastName("Rosso");
         cust.setPassword("password");
-        Account newAccount = accountRepository.save(cust);
-        Customer customer = new Customer(newAccount);
+        cust.setRole("DEFAULT_ROLE");
+        User newUser = userRepository.save(cust);
+        Customer customer = new Customer(newUser);
         Customer newCustomer = customerRepository.save(customer);
         assertFalse(customerService.update(new Customer(cust)).isPresent());
     }

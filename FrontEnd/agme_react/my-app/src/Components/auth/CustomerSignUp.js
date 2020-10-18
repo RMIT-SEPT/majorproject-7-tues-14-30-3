@@ -2,7 +2,8 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { createCustomer } from "../../actions/custCreateActions";
+import { createAccount } from "../../actions/securityActions";
+import axios from "axios";
 
 export class CustomerSignUp extends Component {
   constructor(props) {
@@ -13,7 +14,12 @@ export class CustomerSignUp extends Component {
       firstName: "",
       lastName: "",
       address: "",
-      type:""
+      type:"",
+      service:"",
+      confirmPassword:"",
+      services:null,
+      loaded:false
+
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -26,19 +32,60 @@ export class CustomerSignUp extends Component {
 
   handleSubmit(e) {
     e.preventDefault();
+
+
     const newAccount = {
-      email: this.state.email,
+      username: this.state.email,
       password: this.state.password,
       firstName: this.state.firstName,
       lastName: this.state.lastName,
-      address: this.state.address
+      address: this.state.address,
+      role:this.state.type,
+      confirmPassword:this.state.confirmPassword
     }
+    console.log(newAccount)
 
     //method used to create account with specified type. Will be successful if details are valid
-    this.props.createCustomer(newAccount, this.state.type, this.props.history);
+
+      this.props.createAccount(newAccount, this.state.service, this.state.type, this.props.history);
+    
+
+
   }
 
+
+  async componentDidMount() {
+
+    try{
+    const res = await axios.get("http://localhost:8080/api/service/all");
+    this.setState({ services: res.data, loaded: true });
+    console.log(res.data)
+    }    catch (err) {  
+
+
+    if(err.response.status === 404){
+      this.setState({ loaded: true });
+
+  }
+  }
+  }
+
+
+
   render() {
+  //used to render only after information has been loaded from backend
+  if (!this.state.loaded) {
+    return (
+      <div className = "center-align">
+              <div className="progress">
+              <div className="indeterminate"></div>
+          </div>
+          </div>
+      
+            );
+}
+
+
     return (
       <div>
         <div className="row">
@@ -104,6 +151,9 @@ export class CustomerSignUp extends Component {
                     placeholder="Enter your password again."
                     type="password"
                     className="validate"
+                    name="confirmPassword"
+                    value= {this.state.confirmPassword}
+                    onChange={this.handleChange}
                   ></input>
                 </div>
               </div>
@@ -157,10 +207,39 @@ export class CustomerSignUp extends Component {
               value= {this.state.type} 
               name = "type" required >
                       <option value="" disabled selected>Select account type</option>
-                      <option value="Customer">Customer</option>
-                      <option value="Worker">Worker</option>
+                      <option value="CUSTOMER">Customer</option>
+                      <option value="WORKER">Worker</option>
                   </select>
                   
+              </div>
+
+              <div className="card-content">
+
+
+              {(this.state.type !== "WORKER") ? null: 
+                <h6> Select Service </h6>
+              }
+              {
+                
+                
+                
+                (this.state.type !== "WORKER") ? null: 
+              
+              <select className = "browser-default" onChange={this.handleChange} 
+              value= {this.state.service} 
+              name = "service">
+              <option value = "" disabled selected>Choose your option</option>
+              {
+                
+                this.state.services.map((service, index) => (
+                  <option key={index} value={service['service']}> {service['service']} </option>
+                ))
+              }
+                  </select> 
+
+   
+                
+              }
               </div>
 
 
@@ -191,11 +270,11 @@ export class CustomerSignUp extends Component {
 }
 
 CustomerSignUp.propTypes = {
-  createCustomer: PropTypes.func.isRequired,
+  createAccount: PropTypes.func.isRequired,
 };
 
 
 export default connect (
   null,
-  {createCustomer}
+  {createAccount}
 )(CustomerSignUp);

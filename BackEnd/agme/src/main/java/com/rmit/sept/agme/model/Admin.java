@@ -13,7 +13,7 @@ public class Admin {
 
     @NotNull
     @ManyToOne
-    private Account account;
+    private User user;
 
     private Date createdAt;
     private Date modifiedAt;
@@ -38,16 +38,16 @@ public class Admin {
 
     public Admin(){}
 
-    public Admin(Account account){
-        this.account = account;
+    public Admin(User user){
+        this.user = user;
     }
 
-    public Account getAccount() {
-        return account;
+    public User getUser() {
+        return user;
     }
 
-    public void setAccount(Account account) {
-        this.account = account;
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public long getId() {

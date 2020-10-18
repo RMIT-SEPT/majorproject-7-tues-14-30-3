@@ -1,9 +1,9 @@
 package com.rmit.sept.agme;
 
-import com.rmit.sept.agme.model.Account;
 import com.rmit.sept.agme.model.Customer;
-import com.rmit.sept.agme.repositories.AccountRepository;
+import com.rmit.sept.agme.model.User;
 import com.rmit.sept.agme.repositories.CustomerRepository;
+import com.rmit.sept.agme.repositories.UserRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -15,17 +15,18 @@ public class CustomerTests {
     CustomerRepository customerRepository;
 
     @Autowired
-    AccountRepository accountRepository;
+    UserRepository userRepository;
 
     @Test
     public void testCreatedDate(){
-        Account account = new Account();
+        User account = new User();
         account.setPassword("password");
         account.setAddress("adsadasdasdsa");
         account.setLastName("sdfsdfsdf");
         account.setFirstName("sgrgergerg");
-        account.setEmail("gmail@gmail.com");
-        accountRepository.save(account);
+        account.setUsername("gmail@gmail.com");
+        account.setRole("DEFAULT_ROLE");
+        userRepository.save(account);
         Customer customer = new Customer(account);
         Customer newCustomer = customerRepository.save(customer);
 
@@ -34,25 +35,27 @@ public class CustomerTests {
 
     @Test
     public void testModifiedDate(){
-        Account account = new Account();
+        User account = new User();
         account.setPassword("password");
         account.setAddress("adsadasdasdsa");
         account.setLastName("sdfsdfsdf");
         account.setFirstName("sgrgergerg");
-        account.setEmail("gmail21@gmail.com");
+        account.setUsername("gmail21@gmail.com");
+        account.setRole("DEFAULT_ROLE");
 
-        Account account2 = new Account();
+        User account2 = new User();
         account2.setPassword("password2");
         account2.setAddress("testing street");
         account2.setLastName("replace");
         account2.setFirstName("bob");
-        account2.setEmail("email22@gmail.com");
-        accountRepository.save(account);
-        accountRepository.save(account2);
+        account2.setUsername("email22@gmail.com");
+        account2.setRole("DEFAULT_ROLE");
+        userRepository.save(account);
+        userRepository.save(account2);
         Customer customer = new Customer(account);
 
         Customer newCustomer = customerRepository.save(customer);
-        newCustomer.setAccount(account2);
+        newCustomer.setUser(account2);
         Customer updatedCustomer = customerRepository.save(newCustomer);
 
         assertThat(updatedCustomer.getModifiedAt()).isNotNull();

@@ -7,6 +7,7 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Entity
@@ -18,8 +19,48 @@ public class Booking {
 
     @NotNull
     @ManyToOne
-    @JsonIdentityReference
     private Customer customer;
+
+    @NotNull
+    @ManyToOne
+    private Worker worker;
+
+    @ManyToOne
+    private ServiceName service;
+
+    @NotNull
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date startTime;
+
+    @NotNull
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date endTime;
+
+    private boolean cancelled;
+
+    private Date createdAt;
+    private Date modifiedAt;
+
+    public Date getCreatedAt() {
+        return createdAt;
+    }
+
+    public Date getModifiedAt() {
+        return modifiedAt;
+    }
+
+    @PrePersist
+    protected void onCreate(){
+        this.createdAt = new Date();
+        this.cancelled = false;
+    }
+
+    @PreUpdate
+    protected void onUpdate(){
+        this.modifiedAt = new Date();
+    }
 
     public long getId() {
         return id;
@@ -77,42 +118,11 @@ public class Booking {
         this.modifiedAt = modifiedAt;
     }
 
-    @NotNull
-    @ManyToOne
-    @JsonIdentityReference
-    private Worker worker;
-
-    @NotNull
-    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date startTime;
-
-    @NotNull
-    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date endTime;
-
-    private boolean cancelled;
-
-    private Date createdAt;
-    private Date modifiedAt;
-
-    public Date getCreatedAt() {
-        return createdAt;
+    public ServiceName getService() {
+        return service;
     }
 
-    public Date getModifiedAt() {
-        return modifiedAt;
-    }
-
-    @PrePersist
-    protected void onCreate(){
-        this.createdAt = new Date();
-        this.cancelled = false;
-    }
-
-    @PreUpdate
-    protected void onUpdate(){
-        this.modifiedAt = new Date();
+    public void setService(ServiceName service) {
+        this.service = service;
     }
 }

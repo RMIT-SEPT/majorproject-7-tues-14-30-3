@@ -13,7 +13,7 @@ public class Customer {
 
     @NotNull
     @ManyToOne
-    private Account account;
+    private User user;
 
     private Date createdAt;
     private Date modifiedAt;
@@ -38,16 +38,16 @@ public class Customer {
         return modifiedAt;
     }
 
-    public Customer(Account account){
-        this.account = account;
+    public Customer(User user){
+        this.user = user;
     }
 
-    public Account getAccount() {
-        return account;
+    public User getUser() {
+        return user;
     }
 
-    public void setAccount(Account account) {
-        this.account = account;
+    public void setUser(User user) {
+        this.user = user;
     }
 
 
