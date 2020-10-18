@@ -1,9 +1,7 @@
 package com.rmit.sept.agme.services;
 
-import com.rmit.sept.agme.model.Account;
 import com.rmit.sept.agme.model.Customer;
 import com.rmit.sept.agme.model.User;
-import com.rmit.sept.agme.repositories.AccountRepository;
 import com.rmit.sept.agme.repositories.CustomerRepository;
 import com.rmit.sept.agme.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;

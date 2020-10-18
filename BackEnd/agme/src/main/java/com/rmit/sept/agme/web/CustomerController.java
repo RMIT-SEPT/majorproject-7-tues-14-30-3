@@ -1,10 +1,8 @@
 package com.rmit.sept.agme.web;
 
-import com.rmit.sept.agme.model.Account;
 import com.rmit.sept.agme.model.Customer;
 import com.rmit.sept.agme.model.User;
 import com.rmit.sept.agme.security.JwtTokenProvider;
-import com.rmit.sept.agme.services.AccountService;
 import com.rmit.sept.agme.services.CustomerService;
 import com.rmit.sept.agme.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,31 +26,6 @@ public class CustomerController {
 
     @Autowired
     private JwtTokenProvider tokenProvider;
-
-    //Create customer from new account
-    //First, the new account is created and saved
-    //A new customer is then created and saved with new object
-    /*
-    @PostMapping("/account")
-    public ResponseEntity<?> createCustomerAccount(@Valid @RequestBody Account account, BindingResult result){
-        if(result.hasErrors()) { //Invalid account object in request body
-            return new ResponseEntity<>("Invalid Accounts Object", HttpStatus.BAD_REQUEST);
-        }
-
-        //Create account in repo
-        Optional<Account> savedAccount = userService.saveUser(account);
-        if(!savedAccount.isPresent()){ //Non unique email
-            return new ResponseEntity<>("Invalid Email", HttpStatus.CONFLICT);
-        }
-
-        //Create new customer with account in repo
-        Optional<Customer> savedCustomer = customerService.create(savedAccount.get().getId());
-        if(!savedCustomer.isPresent()){
-            return new ResponseEntity<>("Invalid Account Id", HttpStatus.NOT_FOUND);
-        }
-
-        return new ResponseEntity<>(savedCustomer, HttpStatus.CREATED); //new customer returned
-    }*/
 
     //Create new customer from currently logged in user
     @PostMapping("")

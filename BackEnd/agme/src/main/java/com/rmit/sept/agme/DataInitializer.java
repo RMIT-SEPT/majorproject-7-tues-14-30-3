@@ -1,10 +1,7 @@
 package com.rmit.sept.agme;
 
 import com.rmit.sept.agme.model.Admin;
-import com.rmit.sept.agme.model.ServiceName;
 import com.rmit.sept.agme.model.User;
-import com.rmit.sept.agme.repositories.AdminRepository;
-import com.rmit.sept.agme.repositories.RoleRepository;
 import com.rmit.sept.agme.services.AdminService;
 import com.rmit.sept.agme.services.ServiceNameService;
 import com.rmit.sept.agme.services.UserService;
@@ -21,9 +18,6 @@ public class DataInitializer implements ApplicationListener<ContextRefreshedEven
     
     @Autowired
     ServiceNameService serviceNameService;
-
-    @Autowired
-    RoleRepository roleRepository;
 
     @Autowired
     UserService userService;

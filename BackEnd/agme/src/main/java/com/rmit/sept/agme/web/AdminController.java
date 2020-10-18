@@ -1,13 +1,10 @@
 package com.rmit.sept.agme.web;
 
-import com.rmit.sept.agme.model.Account;
 import com.rmit.sept.agme.model.Admin;
 import com.rmit.sept.agme.model.User;
 import com.rmit.sept.agme.security.JwtTokenProvider;
-import com.rmit.sept.agme.services.AccountService;
 import com.rmit.sept.agme.services.AdminService;
 import com.rmit.sept.agme.services.UserService;
-import io.jsonwebtoken.Jwt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -30,26 +27,7 @@ public class AdminController {
     @Autowired
     private JwtTokenProvider tokenProvider;
 
-    //Get admin by its account id
-    /*
-    @GetMapping("")
-    public ResponseEntity<?> getAdmin(@RequestParam("accountId") long accountId){
-        //Get account from repo
-        Optional<Account> account = accountService.get(accountId);
-        if(!account.isPresent()){ //No account saved with accountId
-            return new ResponseEntity<>("Invalid Account Id", HttpStatus.NOT_FOUND);
-        }
-
-        //Get customer by account from repo
-        Optional<Admin> admin = adminService.getByAccount(account.get());
-        if(!admin.isPresent()){
-            return new ResponseEntity<>("No Admin Found", HttpStatus.NOT_FOUND);
-        }
-
-        return new ResponseEntity<>(admin,HttpStatus.OK); //Customer from repo returned
-    }*/
-
-    //Get worker by a valid jwt
+    //Get admin by a valid jwt
     @GetMapping("")
     public ResponseEntity<?> getAdmin(@RequestHeader("Authorization") String jwt){
         try{
@@ -74,8 +52,9 @@ public class AdminController {
         }
     }
 
+    //Update admin object
     @PutMapping("")
-    public ResponseEntity<?> updateWorker(@Valid @RequestBody Admin admin, BindingResult result){
+    public ResponseEntity<?> updateAdmin(@Valid @RequestBody Admin admin, BindingResult result){
         if(result.hasErrors()) { //Invalid admin object in request body
             return new ResponseEntity<>("Invalid Admin Object", HttpStatus.BAD_REQUEST);
         }

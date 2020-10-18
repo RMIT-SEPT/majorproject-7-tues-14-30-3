@@ -5,7 +5,6 @@ import com.rmit.sept.agme.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
@@ -19,6 +18,9 @@ public class UserService {
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     public Optional<User> saveUser (User newUser){
+        if(userRepository.findByUsername(newUser.getUsername()) != null){
+            return Optional.empty(); //Email not unique
+        }
 
       /*  newUser.setPassword(bCryptPasswordEncoder.encode(newUser.getPassword()));
         //Username has to be unique (exception)

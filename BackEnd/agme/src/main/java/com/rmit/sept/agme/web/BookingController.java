@@ -39,6 +39,7 @@ public class BookingController {
     }
 
 
+    //Create new booking
     @PostMapping("")
     public ResponseEntity<?> createBooking(@Valid @RequestBody Booking booking, BindingResult result){
         if(result.hasErrors()) { //Invalid booking object in request body
@@ -64,6 +65,8 @@ public class BookingController {
     }
 
 
+    //Get booking by the booking id
+    //Not often used as booking id is unlikely to be known
     @GetMapping("")
     public ResponseEntity<?> getBooking(@RequestParam("id") long id){
         Optional<Booking> booking = bookingService.get(id); //Get booking from repo
@@ -79,6 +82,7 @@ public class BookingController {
     }
 
 
+    //Update booking object
     @PutMapping("")
     public ResponseEntity<?> updateBooking(@Valid @RequestBody Booking booking, BindingResult result){
         if(result.hasErrors()) { //Invalid booking object in request body

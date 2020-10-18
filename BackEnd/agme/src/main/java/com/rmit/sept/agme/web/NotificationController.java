@@ -25,6 +25,8 @@ public class NotificationController {
     @Autowired
     JwtTokenProvider tokenProvider;
 
+    //Get all new notifications
+    //Notifications will only be returned once
     @GetMapping("")
     public ResponseEntity<?> getNotifications(@RequestHeader("Authorization") String jwt){
         try{
