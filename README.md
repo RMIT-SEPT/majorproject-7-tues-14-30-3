@@ -25,4 +25,6 @@ CircleCI successfully builds and and deployes to aws (see screen shots).
 However this is not testable in this repo it does not have circleCI credits.
 All circleCI work has been done on a cloned repo as a work around.
 An aws cluster, service and task definition has been created, along with repos for front and back end images.(See screen shots)
-However it is not yet live as piping between images is still being developed.
+
+API is not currently up due to limited AWS credits, but a url can be made available for a limited time if needed
+Frontend is dockerised using circleCI onto AWS but not accessable from the internet
