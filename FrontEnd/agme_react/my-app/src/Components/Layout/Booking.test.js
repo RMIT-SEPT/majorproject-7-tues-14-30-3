@@ -6,12 +6,17 @@ import { findByTestAtrr } from './../../../Utils';
 
 Enzyme.configure({ adapter: new Adapter()});
 
+var arrayObj2 = ["1:00:00","2:00:00"];
+//setProps({times: arrayObj2})
+
 // function to return shallow render
-const setUp = (props={}) => {
+const setUp = (props={times: arrayObj2}) => {
     const component = shallow(<Booking {...props} />);
     const res = ["Appointment","Consult"];
     component.setState({loaded:true});
     component.setState({services: res, sLoaded: true});
+    var arrayObj2 = ["1:00:00","2:00:00"];
+    component.setState({times: arrayObj2})
     return component;
 };
 
