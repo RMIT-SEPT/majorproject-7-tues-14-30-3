@@ -20,6 +20,7 @@ public class Availability {
     @JsonFormat(pattern="HH:mm:ss")
     LocalTime timeSlot;
 
+    @NotNull
     @ManyToOne
     Worker worker;
 

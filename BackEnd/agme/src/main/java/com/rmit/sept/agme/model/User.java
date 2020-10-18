@@ -21,8 +21,9 @@ public class User implements UserDetails {
     @Email(message = "Username needs to be an email")
     @NotBlank(message = "username is required")
     @Column(unique = true)
-    private String username;@Size(min = 3, max = 32, message = "Please enter valid name (3 to 32 characters) ")
+    private String username;
     @NotBlank(message = "Field must not be empty")
+    @Size(min = 3, max = 32, message = "Please enter valid name (3 to 32 characters) ")
     private String firstName;
     @Size(min = 3, max = 32, message = "Please enter valid name (3 to 32 characters) ")
     @NotBlank(message = "Field must not be empty")
@@ -30,6 +31,7 @@ public class User implements UserDetails {
     @Size (min = 6, max = 128, message = "Invalid Address Length")
     @NotBlank(message = "Field must not be empty")
     private String address;
+    @Size(min = 6, max = 64, message = "Invalid Password length")
     @NotBlank(message = "Password field is required")
     private String password;
     @Transient

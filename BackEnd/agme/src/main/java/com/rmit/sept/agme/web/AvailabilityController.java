@@ -26,6 +26,9 @@ public class AvailabilityController {
     @Autowired
     WorkerService workerService;
 
+    //Get a workers availabilities
+    //Without a date, the generic availabilities for a day of the week is returned
+    //With a date, a workers other bookings on that date is considered when returning availabilities
     @GetMapping("")
     public ResponseEntity<?> getAvailabilities(@RequestParam(name = "workerId") Long workerId,
                                                @RequestParam(name = "date", required = false)@DateTimeFormat(iso = DateTimeFormat.ISO.DATE)  LocalDate date){
@@ -51,6 +54,8 @@ public class AvailabilityController {
         }
     }
 
+    //Set a workers availabilities for the day
+    //This will replace any existing availabilities
     @PostMapping("")
     public ResponseEntity<?> setAvailabilities(@RequestBody List<LocalTime> timeSlots,
                                                @RequestParam("workerId") Long workerId, @RequestParam("day") int day){

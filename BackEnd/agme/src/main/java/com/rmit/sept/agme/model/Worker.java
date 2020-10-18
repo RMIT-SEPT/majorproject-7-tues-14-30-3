@@ -34,6 +34,9 @@ public class Worker {
 
     public Worker(User user){this.user = user;}
 
+    public Worker(User user, ServiceName service){this.user = user;
+    this.service = service;}
+
     private boolean accepted;
 
     private Date createdAt;

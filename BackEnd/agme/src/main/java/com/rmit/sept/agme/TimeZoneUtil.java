@@ -7,6 +7,7 @@ import java.util.Calendar;
 import java.util.Date;
 
 public class TimeZoneUtil {
+    //Add timezone to time for storage
     public static Date addTimeZone(Date date) {
         int offsetSeconds = ZoneId.systemDefault().getRules().getOffset(date.toInstant()).getTotalSeconds();
 
@@ -17,6 +18,7 @@ public class TimeZoneUtil {
         return cal.getTime();
     }
 
+    //Remove timezone from time for display
     public static Date removeTimeZone(Date date){
         int offsetSeconds = ZoneId.systemDefault().getRules().getOffset(date.toInstant()).getTotalSeconds();
 

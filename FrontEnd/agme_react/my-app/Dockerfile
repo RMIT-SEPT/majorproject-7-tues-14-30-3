@@ -12,6 +12,10 @@ COPY package.json ./
 COPY package-lock.json ./
 RUN npm install
 RUN npm install react-scripts@3.4.1 -g
+RUN npm i axios
+RUN npm i redux react-redux redux-thunk
+RUN npm i redux-devtools-extension
+RUN npm install --save prop-types
 
 # add app
 COPY . ./
