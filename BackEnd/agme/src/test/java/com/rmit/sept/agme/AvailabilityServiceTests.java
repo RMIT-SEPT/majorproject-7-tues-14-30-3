@@ -108,20 +108,4 @@ public class AvailabilityServiceTests {
 
         assertTrue(availabilities.iterator().hasNext());
     }
-
-    @Test
-    public void testValidAvailabilityCreate(){
-        LocalDate today = LocalDate.now();
-
-        Availability availability = new Availability(LocalTime.now(),worker, today.getDayOfWeek().getValue());
-        availabilityRepository.save(availability);
-
-        List<LocalTime> timeSlots = new ArrayList<>();
-        timeSlots.add(LocalTime.now());
-        availabilityService.updateByDay(timeSlots, today.getDayOfWeek().getValue() ,worker.getId());
-
-        Iterable<LocalTime> availabilities = availabilityService.getByDate(today,worker.getId());
-
-        assertTrue(availabilities.iterator().hasNext());
-    }
 }

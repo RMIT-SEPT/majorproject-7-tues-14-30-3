@@ -85,7 +85,9 @@ public class AvailabilityTests {
     public void testInvalidWorkerAvailabilityCreate(){
         Availability availability = new Availability();
         availability.setDay(1);
-        availability.setTimeSlot(LocalTime.now());
+        LocalTime time  = LocalTime.now();
+        time.minusMinutes(time.getMinute());
+        availability.setTimeSlot(time);
 
         ConstraintViolationException exception = null;
         try {
