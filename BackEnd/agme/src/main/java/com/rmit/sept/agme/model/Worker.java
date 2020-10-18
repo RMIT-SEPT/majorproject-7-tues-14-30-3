@@ -1,6 +1,7 @@
 package com.rmit.sept.agme.model;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.Date;
 
 @Entity
@@ -9,10 +10,32 @@ public class Worker {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
+    @NotNull
     @ManyToOne
-    private Account account;
+    private User user;
 
-    public Worker(Account account){this.account = account;}
+    @NotNull
+    @ManyToOne
+    private ServiceName service;
+
+    public boolean isAccepted() {
+        return accepted;
+    }
+
+    public Date getCreatedAt() {
+        return createdAt;
+    }
+
+    public Date getModifiedAt() {
+        return modifiedAt;
+    }
+
+    public Worker(){}
+
+    public Worker(User user){this.user = user;}
+
+    public Worker(User user, ServiceName service){this.user = user;
+    this.service = service;}
 
     private boolean accepted;
 
@@ -30,12 +53,12 @@ public class Worker {
         this.modifiedAt = new Date();
     }
 
-    public Account getAccount() {
-        return account;
+    public User getUser() {
+        return user;
     }
 
-    public void setAccount(Account account) {
-        this.account = account;
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public long getId() {
@@ -52,5 +75,13 @@ public class Worker {
 
     public void setAccepted(boolean accepted) {
         this.accepted = accepted;
+    }
+
+    public ServiceName getService() {
+        return service;
+    }
+
+    public void setService(ServiceName service) {
+        this.service = service;
     }
 }

@@ -1,168 +1,264 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
+import { createAccount } from "../../actions/securityActions";
+import axios from "axios";
 
-export default class CustomerSignUp extends Component {
+export class CustomerSignUp extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      email: '',
-      password: '',
-      username: '',
-      dob: ''
+      email: "",
+      password: "",
+      firstName: "",
+      lastName: "",
+      address: "",
+      type:"",
+      service:"",
+      confirmPassword:"",
+      services:null,
+      loaded:false
+
     };
 
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  componentDidMount() {
-    const M = window.M;
-    const Calender = document.querySelector(".datepicker");
-    M.Datepicker.init(Calender, {
-      defaultDate: new Date(),
-      format: this.calenderState.format,
-      container: "body",
-    });
-  }
-
-  calenderState = {
-    value: new Date(),
-    format: "dd mmm, yyyy",
-    formatMoment: "dd MMM, YYYY",
-  };
-
   handleChange(e) {
-    this.setState({ [e.target.id]: e.target.value });
+    this.setState({ [e.target.name]: e.target.value });
   }
 
   handleSubmit(e) {
     e.preventDefault();
-    console.log(this.state);
+
+
+    const newAccount = {
+      username: this.state.email,
+      password: this.state.password,
+      firstName: this.state.firstName,
+      lastName: this.state.lastName,
+      address: this.state.address,
+      role:this.state.type,
+      confirmPassword:this.state.confirmPassword
+    }
+    console.log(newAccount)
+
+    //method used to create account with specified type. Will be successful if details are valid
+
+      this.props.createAccount(newAccount, this.state.service, this.state.type, this.props.history);
+    
+
+
   }
 
+
+  async componentDidMount() {
+
+    try{
+    const res = await axios.get("http://localhost:8080/api/service/all");
+    this.setState({ services: res.data, loaded: true });
+    console.log(res.data)
+    }    catch (err) {  
+
+
+    if(err.response.status === 404){
+      this.setState({ loaded: true });
+
+  }
+  }
+  }
+
+
+
   render() {
+  //used to render only after information has been loaded from backend
+  if (!this.state.loaded) {
+    return (
+      <div className = "center-align">
+              <div className="progress">
+              <div className="indeterminate"></div>
+          </div>
+          </div>
+      
+            );
+}
+
+
     return (
       <div>
         <div className="row">
           <div className="col s12 m4 offset-m4">
-            <div className="card">
-              <div class="card-action blue darken-4 white-text">
+            <div className="card" data-test="card">
+              <div className="card-action blue darken-4 white-text">
                 <Link to="/Dashboard">
-                  <span class="white-text text-darken-2 center-align">
+                  <span className="white-text text-darken-2 center-align" data-test="header">
                     <h2>Agme Booking</h2>
                   </span>
                 </Link>
               </div>
               <form onSubmit={this.handleSubmit}>
-              <div class="card-content">
-                <h7> What's your email?</h7>
-                <div class="form-field">
+              <div className="card-content">
+                <h6> What's your email?</h6>
+                <div data-test="email-field">
                   <input
                     placeholder="Enter your email."
-                    id="email"
                     type="email"
-                    class="validate"
+                    name="email"
+                    value= {this.state.email}
                     onChange={this.handleChange}
                   ></input>
                   <span
-                    class="helper-text"
+                    className="helper-text"
                     data-error="This email is invalid. Please make sure it's formatted like example@email.com"
                     data-success=""
                   ></span>
                 </div>
               </div>
               <div className="card-content">
-                <h7> Confirm your email</h7>
-                <div className="form-field">
+                <h6> Confirm your email</h6>
+                <div data-test="confirm-email-field">
                   <input
                     placeholder="Enter your email again."
-                    id="email"
                     type="email"
-                    class="validate"
+                    className="validate"
                   ></input>
                   <span
-                    class="helper-text"
+                    className="helper-text"
                     data-error="This email is invalid. Please make sure it's formatted like example@email.com"
                     data-success=""
                   ></span>
                 </div>
               </div>
-              <div class="card-content">
-                <h7> Create a password</h7>
-                <div class="form-field">
+              <div className="card-content">
+                <h6> Create a password</h6>
+                <div data-test="password-field">
                   <input
                     placeholder="Create a password."
-                    id="password"
                     type="password"
-                    class="validate"
+                    className="validate"
+                    name="password"
+                    value= {this.state.password}
                     onChange={this.handleChange}
                   ></input>
                 </div>
               </div>
-              <div class="card-content">
-                <h7> Confirm your password</h7>
-                <div class="form-field">
+              <div className="card-content">
+                <h6> Confirm your password</h6>
+                <div data-test="confirm-password-field">
                   <input
                     placeholder="Enter your password again."
-                    id="password"
                     type="password"
-                    class="validate"
-                  ></input>
-                </div>
-              </div>
-              <div class="card-content">
-                <h7> What's your username?</h7>
-                <div class="form-field">
-                  <input
-                    placeholder="Enter a username."
-                    id="username"
-                    type="text"
-                    class="validate"
+                    className="validate"
+                    name="confirmPassword"
+                    value= {this.state.confirmPassword}
                     onChange={this.handleChange}
                   ></input>
                 </div>
               </div>
 
-              <div class="card-content">
-                <h7> What's your date of birth?</h7>
-                <input
-                  type="text"
-                  id="dob"
-                  class="datepicker"
-                  placeholder="Choose your date of birth."
-                  onChange={this.handleChange}
-                ></input>
+
+              <div className="card-content">
+                <h6> What's your First Name?</h6>
+                <div data-test="first-name-field">
+                  <input
+                    placeholder="Enter your First Name."
+                    type="text"
+                    className="validate"
+                    name = "firstName"
+                    value= {this.state.firstName}
+                    onChange={this.handleChange}
+                  ></input>
+                </div>
               </div>
 
-              <div class="card-content">
-                <h7> What's your gender?</h7>
-                <p>
-                  <br />
-                  <label class="checkbox-left">
-                    <input type="checkbox" />
-                    <span>Male</span>
-                  </label>
-                  <label class="checkbox-middle">
-                    <input type="checkbox" />
-                    <span>Female</span>
-                  </label>
-                </p>
+              <div className="card-content">
+                <h6> What's your Last Name?</h6>
+                <div data-test="last-name-field">
+                  <input
+                    placeholder="Enter your last name."
+                    type="text"
+                    name = "lastName"
+                    value= {this.state.lastName}
+                    className="validate"
+                    onChange={this.handleChange}
+                  ></input>
+                </div>
               </div>
 
-              <div class="center-align">
-                <button class="btn btn-block blue darken-4" type="submit">
+              <div className="card-content">
+                <h6> What's your address?</h6>
+                <div data-test="address-field">
+                  <input
+                    placeholder="Enter Address."
+                    type="text"
+                    className="validate"
+                    name = "address"
+                    value= {this.state.address}
+                    onChange={this.handleChange}
+                  ></input>
+                </div>
+              </div>
+
+              <div className="card-content">
+              <h6> Are you a Customer or a Worker? </h6>
+              <select className = "browser-default" onChange={this.handleChange} 
+              value= {this.state.type} 
+              name = "type" required >
+                      <option value="" disabled selected>Select account type</option>
+                      <option value="CUSTOMER">Customer</option>
+                      <option value="WORKER">Worker</option>
+                  </select>
+                  
+              </div>
+
+              <div className="card-content">
+
+
+              {(this.state.type !== "WORKER") ? null: 
+                <h6> Select Service </h6>
+              }
+              {
+                
+                
+                
+                (this.state.type !== "WORKER") ? null: 
+              
+              <select className = "browser-default" onChange={this.handleChange} 
+              value= {this.state.service} 
+              name = "service">
+              <option value = "" disabled selected>Choose your option</option>
+              {
+                
+                this.state.services.map((service, index) => (
+                  <option key={index} value={service['service']}> {service['service']} </option>
+                ))
+              }
+                  </select> 
+
+   
+                
+              }
+              </div>
+
+
+              <div className="center-align">
+                <button className="btn btn-form blue darken-4" 
+                data-test="sign-up-button"
+                type="submit">
                   Sign Up
                 </button>
               </div>
 
-              <div class="card-content center-align">
-                <h7> Have an account?</h7>
+              <div className="card-content center-align">
+                <h6> Have an account?</h6>
                 <Link to="/CustomerLogIn">
-                  <h7>
+                  <h6>
                     <u> Log In.</u>
-                  </h7>
+                  </h6>
                 </Link>
-                <div class="form-field"></div>
+                <div className="form-field"></div>
               </div>
               </form>
             </div>
@@ -172,3 +268,13 @@ export default class CustomerSignUp extends Component {
     );
   }
 }
+
+CustomerSignUp.propTypes = {
+  createAccount: PropTypes.func.isRequired,
+};
+
+
+export default connect (
+  null,
+  {createAccount}
+)(CustomerSignUp);

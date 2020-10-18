@@ -1,6 +1,6 @@
 # RMIT SEPT 2020 Major Project
 
-# Group 00
+# Group 03
 
 ## Members
 * NGUYEN, Kevin (s3783668)
@@ -18,3 +18,13 @@
 ## Code documentation
 
 [Quick Start](/docs/README.md) in `docs` folder
+
+
+CircleCI implementation, including relavent docker files has been included for this release. 
+CircleCI successfully builds and and deployes to aws (see screen shots). 
+However this is not testable in this repo it does not have circleCI credits.
+All circleCI work has been done on a cloned repo as a work around.
+An aws cluster, service and task definition has been created, along with repos for front and back end images.(See screen shots)
+
+API is not currently up due to limited AWS credits, but a url can be made available for a limited time if needed
+Frontend is dockerised using circleCI onto AWS but not accessable from the internet

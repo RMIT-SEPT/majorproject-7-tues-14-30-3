@@ -37,18 +37,146 @@
   }
 }
 
-.btn {
-  width:90%;
+.notifier {
+  border-bottom: double;
+  margin-bottom:30px;
+}
+
+
+.btn-form {
+  width: 90%;
   display: inline-block;
 }
 
+.btn-book {
+  height: 50px;
+  width: 40%;
+  display: inline-block;
+}
+
+.btn-time {
+  width: 20%;
+  margin: 1%;
+  display: inline-block;
+}
+
+.avail {
+  width: 40%;
+  margin: 1%;
+  padding:10%;
+  font-size: calc(10px + 2vmin);
+  display: inline-block;
+}
+
+.btn-bookings {
+  height: 50px;
+  width: 80%;
+  display: inline-block;
+}
+
+.btn-profile {
+  width: 20%;
+  display: inline-block;
+  position: relative;
+  top: 15px;
+  left: 10px;
+}
+
+.btn-approve {
+  height: 60px;
+  width: 80%;
+  display: inline-block;
+}
+
+.btn-timeslot {
+  height: 40px;
+  width: 150%;
+  display: inline-block;
+  margin-top: 10px;
+}
+
+.calender {
+  width: 100%;
+  position: absolute;
+}
+
 .checkbox-left {
-  vertical-align:bottom;
+  vertical-align: bottom;
 }
 
 .checkbox-middle {
-  vertical-align:bottom;
+  vertical-align: bottom;
   margin-left: 50px;
-  
 }
 
+.cust-notifs {
+  height: 50px;
+  width: 50%;
+  margin-top: -100px;
+  
+  position: absolute;
+}
+
+.book-dashboard {
+  margin-top: 40px;
+  right: 200px;
+}
+
+nav ul .waves-effect i {
+  display: inline;
+  margin-left: 8px;
+}
+
+.nav-text {
+  vertical-align: 8px;
+  margin-left: 10px;
+}
+
+.dropdown-trigger {
+  height: 164px;
+}
+
+.page-footer {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+}
+
+.dashboard-signup {
+  height: 50px;
+  width: 50%;
+  display: inline-block;
+}
+
+.dashboard-main-text {
+  margin-top: 40px;
+  font-size: 70px;
+}
+
+.dashboard-sub-text {
+  margin-bottom: 40px;
+}
+
+.logged-in-dashboard-text {
+  margin-top: 110px;
+}
+
+.account-card {
+  position: relative;
+  top: 10px;
+}
+
+.link-redirect {
+  text-align: right;
+}
+
+.link-redirect-wp {
+  text-align: right;
+  margin: 35px 70px 50px 80px;
+}
+
+.link-redirect-wpp {
+  text-align: right;
+  margin: 35px 70px 20px 10px;
+}

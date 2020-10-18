@@ -2,6 +2,7 @@ package com.rmit.sept.agme.model;
 
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.Date;
 
 @Entity
@@ -10,11 +11,20 @@ public class Admin {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
+    @NotNull
     @ManyToOne
-    private Account account;
+    private User user;
 
     private Date createdAt;
     private Date modifiedAt;
+
+    public Date getCreatedAt() {
+        return createdAt;
+    }
+
+    public Date getModifiedAt() {
+        return modifiedAt;
+    }
 
     @PrePersist
     protected void onCreate(){
@@ -28,12 +38,16 @@ public class Admin {
 
     public Admin(){}
 
-    public Account getAccount() {
-        return account;
+    public Admin(User user){
+        this.user = user;
     }
 
-    public void setAccount(Account account) {
-        this.account = account;
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public long getId() {
